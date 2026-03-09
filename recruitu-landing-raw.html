@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RecruitU</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --gray-50: #f9f9f9;
+      --gray-100: #f3f3f3;
+      --gray-200: #e8e8e8;
+      --gray-500: #8a8a8a;
+      --gray-700: #444444;
+      --gray-900: #111111;
+      --blue: #1a3dff;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Instrument Sans', sans-serif; background: #fff; color: var(--gray-900); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+    .font-serif { font-family: 'Instrument Serif', serif; }
+    .font-mono { font-family: 'DM Mono', monospace; }
+
+    /* Nav */
+    nav {
+      position: sticky; top: 0; z-index: 200;
+      border-bottom: 1px solid transparent;
+      transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
+    }
+    nav.scrolled {
+      background: rgba(252,252,250,1);
+      border-bottom-color: rgba(0,0,0,0.1);
+      box-shadow: 0 1px 0 rgba(0,0,0,0.06), 0 4px 20px rgba(0,0,0,0.07);
+      backdrop-filter: blur(24px);
+    }
+    nav .nav-inner { display: flex; height: 62px; align-items: center; justify-content: space-between; gap: 2rem; padding: 0 1.25rem; max-width: 100%; }
+    @media (min-width: 768px) { nav .nav-inner { padding: 0 2.5rem; } }
+    nav .logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; color: inherit; overflow: hidden; flex-shrink: 0; }
+    nav .logo-mark { width: 26px; height: 26px; border: 1.5px solid var(--gray-900); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    nav .logo-text { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gray-900); white-space: nowrap; transition: opacity 0.25s, transform 0.35s, max-width 0.35s; max-width: 120px; }
+    nav.scrolled .logo-text { max-width: 0; opacity: 0; transform: translateX(-12px); overflow: hidden; }
+    nav .nav-tabs { position: absolute; left: 50%; transform: translateX(-50%); display: flex; height: 100%; align-items: stretch; }
+    nav .nav-tab { font-family: 'DM Mono', monospace; font-size: 0.57rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0 1.25rem; border: none; background: transparent; border-bottom: 2px solid var(--blue); color: var(--blue); margin-bottom: -1px; cursor: default; }
+    @media (min-width: 768px) { nav .nav-tab { padding: 0 1.5rem; } }
+    nav .nav-right { display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; }
+    nav .nav-cta { font-family: 'DM Mono', monospace; font-size: 0.55rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.5rem 1rem; border-radius: 6px; text-decoration: none; transition: background 0.15s; display: inline-block; }
+    nav .nav-cta.login { background: #e8e8e6; color: var(--gray-900); }
+    nav .nav-cta.login:hover { background: #c0c0be; }
+    nav .nav-cta.primary { background: var(--blue); color: #fff; }
+    nav .nav-cta.primary:hover { background: #0A2ACC; }
+
+    /* Hero */
+    .hero { position: relative; background: #fff; border-bottom: 1px solid var(--gray-200); padding: 3rem 1.25rem 2.25rem; }
+    @media (min-width: 768px) { .hero { padding-left: 2.5rem; padding-right: 2.5rem; } }
+    .hero-inner { max-width: 1120px; margin: 0 auto; position: relative; z-index: 1; }
+    .hero-label { display: inline-flex; align-items: center; gap: 0.5rem; font-family: 'DM Mono', monospace; font-size: 0.54rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--blue); margin-bottom: 1.25rem; }
+    .hero-label-line { width: 20px; height: 1px; background: var(--blue); }
+    .hero h1 { font-family: 'Instrument Serif', serif; font-size: clamp(3rem, 6vw, 6.5rem); font-weight: 400; line-height: 0.98; letter-spacing: -0.035em; max-width: 900px; margin-bottom: 0; }
+    .hero h1 em { font-style: italic; color: var(--gray-500); }
+    .hero-divider { width: 100%; height: 1px; background: var(--gray-200); margin: 1.5rem 0; }
+    .hero-bottom { display: grid; grid-template-columns: 1fr; gap: 3rem; align-items: start; }
+    @media (min-width: 768px) { .hero-bottom { grid-template-columns: 1fr 1fr; gap: 3.5rem; } }
+    .hero-sub { font-size: 0.92rem; line-height: 1.6; color: var(--gray-700); font-weight: 300; max-width: 440px; margin-bottom: 2rem; }
+    .hero-actions { display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap; }
+    .btn-primary { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.75rem 1.5rem; background: var(--blue); color: #fff; text-decoration: none; border-radius: 6px; display: inline-block; transition: background 0.18s; }
+    .btn-primary:hover { background: #0A2ACC; }
+    .btn-secondary { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.75rem 0; background: transparent; color: var(--gray-500); text-decoration: none; border: none; cursor: pointer; display: inline-block; transition: color 0.15s; }
+    .btn-secondary:hover { color: var(--gray-900); }
+
+    /* Hero stats */
+    .hero-stats { flex: 0 0 auto; width: 100%; min-width: 240px; max-width: 340px; display: flex; flex-direction: column; border: 1px solid #e8e8e4; border-radius: 8px; overflow: hidden; }
+    .hero-stats .stat-row { padding: 0.875rem 1.25rem; border-bottom: 1px solid #e8e8e4; background: #fff; transition: background 0.15s; }
+    .hero-stats .stat-row:last-child { border-bottom: none; }
+    .hero-stats .stat-row:hover { background: #f9f9f9; }
+    .hero-stats .stat-num { font-family: 'Instrument Serif', serif; font-size: 1.6rem; line-height: 1; letter-spacing: -0.025em; color: #111; display: flex; align-items: baseline; gap: 0.25rem; }
+    .hero-stats .stat-plus { font-family: 'Instrument Serif', serif; font-size: 1rem; color: #2563EB; opacity: 0.7; }
+    .hero-stats .stat-label { font-family: 'DM Mono', monospace; font-size: 0.47rem; letter-spacing: 0.12em; text-transform: uppercase; color: #8A8A8A; margin-top: 0.375rem; }
+
+    /* Sections */
+    .section { padding: 2.5rem 1.25rem; border-bottom: 1px solid #eeecea; max-width: 1200px; margin: 0 auto; }
+    .bg-tint { background: #faf9f6; }
+    .section-inner { max-width: 1200px; margin: 0 auto; padding: 0 1.25rem; }
+    @media (min-width: 768px) { .section { padding-left: 3rem; padding-right: 3rem; } .section-inner { padding: 0 3rem; } }
+    .section.bg-tint { background: #faf9f6; }
+    .sec-kicker { font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.18em; text-transform: uppercase; color: #2563EB; margin-bottom: 0.5rem; }
+    .sec-title { font-family: 'Instrument Serif', serif; font-size: clamp(1.9rem, 2.6vw, 2.6rem); font-weight: 400; line-height: 1.1; letter-spacing: -0.02em; color: #111; }
+    .sec-sub { font-size: 0.84rem; line-height: 1.6; font-weight: 300; color: #777; margin-top: 0.5rem; max-width: 440px; }
+    .scroll-track { display: flex; gap: 0.75rem; overflow-x: auto; padding-bottom: 0.25rem; scrollbar-width: none; }
+    .scroll-track::-webkit-scrollbar { display: none; }
+
+    /* People card */
+    .people-card { flex: 0 0 300px; border: 1px solid #e4e4e0; border-radius: 6px; padding: 1rem; background: #fff; cursor: pointer; transition: border-color 0.15s, background 0.15s; }
+    .people-card:hover { border-color: #2563EB; background: #fafbff; }
+    .people-card .card-top { display: flex; align-items: center; gap: 0.625rem; margin-bottom: 0.75rem; }
+    .people-card .av { width: 34px; height: 34px; border-radius: 4px; background: #e8e8e4; color: #555; font-size: 0.62rem; font-weight: 600; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .people-card .info { flex: 1; min-width: 0; }
+    .people-card .name { font-size: 0.84rem; font-weight: 400; color: #111; letter-spacing: -0.01em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .people-card .role { font-size: 0.71rem; color: #888; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .people-card .company { color: #2563EB; font-weight: 400; }
+    .people-card .badge { font-family: 'DM Mono', monospace; font-size: 0.47rem; font-weight: 500; padding: 2px 6px; border-radius: 3px; letter-spacing: 0.05em; text-transform: uppercase; background: #eff4ff; color: #2563EB; flex-shrink: 0; }
+    .people-card .reason { font-size: 0.72rem; color: #666; line-height: 1.5; border-top: 1px solid #f0efed; padding-top: 0.75rem; padding-bottom: 0.75rem; }
+    .people-card .view-btn { font-size: 0.71rem; color: #2563EB; background: none; border: none; cursor: pointer; padding: 2px 4px; border-radius: 4px; }
+    .people-card .view-btn:hover { text-decoration: underline; }
+
+    /* Job card */
+    .job-card { flex: 0 0 320px; background: #fff; border: 1px solid #e4e4e0; border-radius: 6px; padding: 1.25rem; text-decoration: none; color: inherit; display: flex; flex-direction: column; min-height: 150px; transition: border-color 0.15s, background 0.15s; }
+    .job-card:hover { border-color: #2563EB; background: #fafbff; }
+    .job-card .title { font-size: 0.88rem; font-weight: 400; color: #111; letter-spacing: -0.01em; line-height: 1.25; margin-bottom: 0.625rem; }
+    .job-card .pills { display: flex; gap: 0.375rem; flex-wrap: wrap; margin-bottom: 0.625rem; }
+    .job-card .pill { font-family: 'DM Mono', monospace; font-size: 0.48rem; letter-spacing: 0.05em; text-transform: uppercase; color: #555; background: #f2f1ee; padding: 2px 8px; border-radius: 3px; }
+    .job-card .foot { display: flex; align-items: center; justify-content: space-between; border-top: 1px solid #f0efed; padding-top: 0.625rem; margin-top: auto; }
+    .job-card .alum { display: flex; align-items: center; gap: 0.375rem; font-size: 0.72rem; color: #666; }
+    .job-card .alum-dot { width: 6px; height: 6px; border-radius: 50%; background: #059669; flex-shrink: 0; }
+    .job-card .apply { font-size: 0.74rem; color: #2563EB; }
+
+    /* Club card */
+    .club-card { flex: 0 0 300px; background: #fff; border: 1px solid #e4e4e0; border-radius: 6px; padding: 1rem; cursor: pointer; display: flex; flex-direction: column; transition: border-color 0.15s, background 0.15s; }
+    .club-card:hover { border-color: #2563EB; background: #fafbff; }
+    .club-card .card-top { display: flex; align-items: center; gap: 0.625rem; margin-bottom: 0.75rem; }
+    .club-card .av { width: 34px; height: 34px; border-radius: 4px; background: #f0efed; color: #555; font-size: 0.62rem; font-weight: 600; display: flex; align-items: center; justify-content: center; flex-shrink: 0; overflow: hidden; }
+    .club-card .av img { width: 100%; height: 100%; object-fit: cover; }
+    .club-card .name { font-size: 0.84rem; font-weight: 400; color: #111; letter-spacing: -0.01em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .club-card .school { font-size: 0.71rem; color: #888; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .club-card .foot { display: flex; align-items: center; justify-content: space-between; border-top: 1px solid #f0efed; padding-top: 0.625rem; margin-top: 0.5rem; }
+    .club-card .avatars { display: flex; align-items: center; gap: -6px; }
+    .club-card .av-sm { width: 22px; height: 22px; border-radius: 50%; border: 2px solid #fff; margin-left: -6px; flex-shrink: 0; background: #e8e8e4; }
+    .club-card .av-sm:first-child { margin-left: 0; }
+    .club-card .member-count { font-size: 0.68rem; color: #999; margin-left: 0.375rem; }
+    .club-card .view-btn { font-size: 0.71rem; color: #2563EB; background: none; border: none; cursor: pointer; }
+    .club-card .view-btn:hover { text-decoration: underline; }
+
+    /* Career paths header */
+    .career-header { margin-bottom: 1.5rem; }
+    .career-header .row { display: flex; flex-direction: column; gap: 1rem; align-items: flex-start; }
+    @media (min-width: 640px) { .career-header .row { flex-direction: row; align-items: flex-end; justify-content: space-between; } }
+    .track-pill-wrap { position: relative; display: inline-block; flex-shrink: 0; }
+    .track-pill { display: inline-flex; align-items: center; gap: 0.375rem; font-family: 'DM Mono', monospace; font-size: 0.52rem; letter-spacing: 0.1em; text-transform: uppercase; background: #fff; border: 1px solid #e4e4e0; border-radius: 9999px; padding: 0.375rem 0.875rem; color: #555; cursor: pointer; box-shadow: 0 1px 3px rgba(0,0,0,0.06); transition: border-color 0.15s, box-shadow 0.15s; }
+    .track-pill:hover { border-color: #bbb; box-shadow: 0 2px 8px rgba(0,0,0,0.09); }
+    .track-pill .dot { width: 6px; height: 6px; border-radius: 50%; background: #2563EB; flex-shrink: 0; }
+    .track-dropdown { display: none; position: absolute; top: calc(100% + 6px); right: 0; background: #fff; border: 1px solid #e4e4e0; border-radius: 12px; padding: 6px; min-width: 180px; box-shadow: 0 8px 24px rgba(0,0,0,0.1); z-index: 10; }
+    .track-pill-wrap.open .track-dropdown { display: block; }
+    .track-dropdown .item { display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 0.75rem; border-radius: 6px; font-size: 0.78rem; color: #555; cursor: pointer; width: 100%; text-align: left; border: none; background: none; transition: background 0.15s; }
+    .track-dropdown .item:hover { background: #f9f9f7; color: #111; }
+    .track-dropdown .item.active { font-weight: 500; color: #111; background: #f5f5f3; }
+    .track-dropdown .item.active .dot { background: #2563EB; }
+    .track-dropdown .item .dot { width: 6px; height: 6px; border-radius: 50%; background: #ddd; flex-shrink: 0; }
+    .track-dropdown .item.soon { color: #bbb; cursor: not-allowed; }
+    .track-dropdown .item.soon .soon-tag { margin-left: auto; font-family: 'DM Mono', monospace; font-size: 0.42rem; letter-spacing: 0.08em; text-transform: uppercase; color: #ccc; }
+    .diagram-placeholder { width: 100%; height: 340px; background: #faf9f6; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #8A8A8A; font-size: 0.875rem; }
+    @media (min-width: 768px) { .diagram-placeholder { height: 400px; } }
+    .career-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 1rem; flex-wrap: wrap; gap: 0.75rem; }
+    .career-footer .note { font-size: 0.76rem; color: #aaa; }
+    .cta-btn { display: inline-flex; align-items: center; gap: 0.5rem; font-family: 'DM Mono', monospace; font-size: 0.52rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.5rem 1.25rem; border-radius: 6px; border: 1px solid #111; background: #fff; color: #111; cursor: pointer; transition: background 0.12s, color 0.12s; }
+    .cta-btn:hover { background: #111; color: #fff; }
+    .cta-btn .arrow { transition: transform 0.15s; }
+    .cta-btn:hover .arrow { transform: translateX(3px); }
+
+    /* CTA section */
+    .cta-section { background: var(--gray-900); padding: 4rem 1.25rem; }
+    @media (min-width: 768px) { .cta-section { padding-left: 2.5rem; padding-right: 2.5rem; } }
+    .cta-inner { max-width: 1120px; margin: 0 auto; display: grid; grid-template-columns: 1fr; gap: 3.5rem; align-items: center; }
+    @media (min-width: 768px) { .cta-inner { grid-template-columns: 1fr auto; } }
+    .cta-section h2 { font-family: 'Instrument Serif', serif; font-size: clamp(2.2rem, 4vw, 4.2rem); font-weight: 400; line-height: 1.05; letter-spacing: -0.025em; color: #fff; }
+    .cta-section h2 em { font-style: italic; color: rgba(255,255,255,0.3); }
+    .cta-aside { display: flex; flex-direction: column; gap: 0.625rem; min-width: 200px; }
+    .cta-note { font-family: 'DM Mono', monospace; font-size: 0.5rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.35); }
+    .btn-white { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.75rem 1.5rem; background: #fff; color: var(--gray-900); text-decoration: none; border-radius: 6px; text-align: center; display: inline-block; transition: background 0.08s; }
+    .btn-white:hover { background: var(--gray-100); }
+
+    /* Footer */
+    footer { display: flex; align-items: center; justify-content: space-between; padding: 1.5rem 1.25rem; border-top: 1px solid var(--gray-200); background: #fff; flex-wrap: wrap; gap: 1rem; }
+    @media (min-width: 768px) { footer { padding-left: 2.5rem; padding-right: 2.5rem; } }
+    footer .ft-logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; color: inherit; }
+    footer .ft-mark { width: 20px; height: 20px; border: 1.5px solid var(--gray-900); display: flex; align-items: center; justify-content: center; }
+    footer .ft-word { font-family: 'DM Mono', monospace; font-size: 0.5rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gray-900); }
+    footer .ft-copy { font-family: 'DM Mono', monospace; font-size: 0.48rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray-500); }
+
+    .section-actions { display: flex; align-items: center; justify-content: flex-end; margin-top: 1rem; }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav id="nav">
+    <div class="nav-inner">
+      <a href="#" class="logo">
+        <div class="logo-mark">
+          <svg width="11" height="12" viewBox="0 0 13 15" fill="none"><path d="M2 1.5h5a3.5 3.5 0 010 7H2M7 8.5l4 5" stroke="#111" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <span class="logo-text">RECRUITU</span>
+      </a>
+      <div class="nav-tabs">
+        <button type="button" class="nav-tab" aria-current="page">For Students</button>
+      </div>
+      <div class="nav-right">
+        <a href="#" class="nav-cta login">Log in</a>
+        <a href="#" class="nav-cta primary">Join Free</a>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero-inner">
+        <div class="hero-label">
+          <span class="hero-label-line"></span>
+          Your career, built around people
+        </div>
+        <h1 class="font-serif">
+          <span style="display:block">Build your career</span>
+          <span style="display:block">through <em>people.</em></span>
+        </h1>
+        <div class="hero-divider"></div>
+        <div class="hero-bottom">
+          <div>
+            <p class="hero-sub">Careers aren't built by applying. They're built through the right people, at the right time. Your personal agent makes sure you're always in that position — wherever you are in your career.</p>
+            <div class="hero-actions">
+              <a href="#" class="btn-primary">Join Free</a>
+              <a href="#" class="btn-secondary">See how it works →</a>
+            </div>
+          </div>
+          <div class="hero-stats">
+            <div class="stat-row">
+              <div class="stat-num"><span>75,000</span><span class="stat-plus">+</span></div>
+              <div class="stat-label">Students</div>
+            </div>
+            <div class="stat-row">
+              <div class="stat-num"><span>10,000,000</span><span class="stat-plus">+</span></div>
+              <div class="stat-label">Professionals</div>
+            </div>
+            <div class="stat-row">
+              <div class="stat-num"><span>500</span><span class="stat-plus">+</span></div>
+              <div class="stat-label">Clubs</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Your network -->
+    <section class="section bg-tint">
+      <div class="section-inner">
+        <div class="sec-kicker">Your network</div>
+        <h2 class="sec-title">Find the people that matter to you.</h2>
+        <div class="scroll-track" id="track-people">
+          <div class="people-card">
+            <div class="card-top">
+              <div class="av">AL</div>
+              <div class="info"><div class="name">Alex L.</div><div class="role">VP, PE · <span class="company">Blackstone</span></div></div>
+              <span class="badge">Just joined</span>
+            </div>
+            <div class="reason">From your finance club — moved into the PE group you're targeting.</div>
+            <div style="display:flex;justify-content:flex-end"><button type="button" class="view-btn">View profile →</button></div>
+          </div>
+          <div class="people-card">
+            <div class="card-top">
+              <div class="av">JM</div>
+              <div class="info"><div class="name">Jamie M.</div><div class="role">Associate · <span class="company">Bain & Co.</span></div></div>
+              <span class="badge">Open to calls</span>
+            </div>
+            <div class="reason">Michigan alum. Has 3 coffee chat slots available this week.</div>
+            <div style="display:flex;justify-content:flex-end"><button type="button" class="view-btn">View profile →</button></div>
+          </div>
+          <div class="people-card">
+            <div class="card-top">
+              <div class="av">DK</div>
+              <div class="info"><div class="name">David K.</div><div class="role">Principal · <span class="company">KKR</span></div></div>
+              <span class="badge">2 shared</span>
+            </div>
+            <div class="reason">Hired 4 analysts from your school in the last 2 years.</div>
+            <div style="display:flex;justify-content:flex-end"><button type="button" class="view-btn">View profile →</button></div>
+          </div>
+          <div class="people-card">
+            <div class="card-top">
+              <div class="av">MR</div>
+              <div class="info"><div class="name">Maya R.</div><div class="role">Analyst · <span class="company">Goldman IBD</span></div></div>
+              <span class="badge">Same school</span>
+            </div>
+            <div class="reason">Class of '23. Went through the same recruiting cycle as you.</div>
+            <div style="display:flex;justify-content:flex-end"><button type="button" class="view-btn">View profile →</button></div>
+          </div>
+          <div class="people-card">
+            <div class="card-top">
+              <div class="av">ET</div>
+              <div class="info"><div class="name">Ethan T.</div><div class="role">Analyst · <span class="company">Blackstone</span></div></div>
+              <span class="badge">Same school</span>
+            </div>
+            <div class="reason">Vanderbilt '24. Actively recruits back to campus each cycle.</div>
+            <div style="display:flex;justify-content:flex-end"><button type="button" class="view-btn">View profile →</button></div>
+          </div>
+          <div class="people-card">
+            <div class="card-top">
+              <div class="av">JH</div>
+              <div class="info"><div class="name">James H.</div><div class="role">MD · <span class="company">Warburg Pincus</span></div></div>
+              <span class="badge">Recruiter</span>
+            </div>
+            <div class="reason">Active recruiter at Warburg. Sourced 6 analysts from your school this cycle.</div>
+            <div style="display:flex;justify-content:flex-end"><button type="button" class="view-btn">View profile →</button></div>
+          </div>
+          <div class="people-card">
+            <div class="card-top">
+              <div class="av">AS</div>
+              <div class="info"><div class="name">Aisha S.</div><div class="role">Associate · <span class="company">McKinsey</span></div></div>
+              <span class="badge">Open to calls</span>
+            </div>
+            <div class="reason">MBB offer after junior summer. Happy to walk through her recruiting timeline.</div>
+            <div style="display:flex;justify-content:flex-end"><button type="button" class="view-btn">View profile →</button></div>
+          </div>
+          <div class="people-card">
+            <div class="card-top">
+              <div class="av">BN</div>
+              <div class="info"><div class="name">Ben N.</div><div class="role">Analyst · <span class="company">Evercore ISI</span></div></div>
+              <span class="badge">Same school</span>
+            </div>
+            <div class="reason">Duke '24. Broke into restructuring — one of 3 from your school at Evercore.</div>
+            <div style="display:flex;justify-content:flex-end"><button type="button" class="view-btn">View profile →</button></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Career paths -->
+    <section class="section" style="padding-top:2.25rem;padding-bottom:2.75rem;">
+      <div class="section-inner">
+        <div class="career-header">
+          <div class="sec-kicker">Career paths</div>
+          <div class="row">
+            <div>
+              <h2 class="sec-title">See exactly how people like you got there.</h2>
+              <p class="sec-sub">Your peers have already mapped the way. Explore the different paths taken to get to where you want to go.</p>
+            </div>
+            <div class="track-pill-wrap" id="track-wrap">
+              <button type="button" class="track-pill" id="track-btn" aria-expanded="false" aria-haspopup="true">
+                <span class="dot"></span>
+                Finance Track
+                <span style="font-size:0.6rem;color:#999;margin-left:2px;">▾</span>
+              </button>
+              <div class="track-dropdown" role="menu" id="track-dropdown">
+                <button type="button" class="item active" role="menuitem"><span class="dot"></span>Finance</button>
+                <button type="button" class="item soon" role="menuitem" disabled><span class="dot"></span>Quant <span class="soon-tag">Soon</span></button>
+                <button type="button" class="item soon" role="menuitem" disabled><span class="dot"></span>Consulting <span class="soon-tag">Soon</span></button>
+                <button type="button" class="item soon" role="menuitem" disabled><span class="dot"></span>Technology <span class="soon-tag">Soon</span></button>
+                <button type="button" class="item soon" role="menuitem" disabled><span class="dot"></span>Healthcare <span class="soon-tag">Soon</span></button>
+                <button type="button" class="item soon" role="menuitem" disabled><span class="dot"></span>Public Sector <span class="soon-tag">Soon</span></button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="diagram-placeholder">Career path diagram (canvas) — use React app for interactive version.</div>
+        <div class="career-footer">
+          <span class="note">Paths based on 50,000+ alumni across 800+ universities.</span>
+          <button type="button" class="cta-btn">Map your own path <span class="arrow">→</span></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Open roles -->
+    <section class="section bg-tint">
+      <div class="section-inner">
+        <div class="sec-kicker">Open roles</div>
+        <h2 class="sec-title">Discover your next opportunity.</h2>
+        <div class="scroll-track" id="track-jobs">
+          <a href="#" class="job-card">
+            <div class="title">Investment Banking Summer Analyst</div>
+            <div class="pills"><span class="pill">New York</span><span class="pill">Summer 2026</span><span class="pill">IB</span></div>
+            <div class="foot"><div class="alum"><span class="alum-dot"></span><span>12 alumni from your school</span></div><span class="apply">Apply →</span></div>
+          </a>
+          <a href="#" class="job-card">
+            <div class="title">Summer Analyst, Private Equity</div>
+            <div class="pills"><span class="pill">New York</span><span class="pill">Summer 2026</span><span class="pill">PE</span></div>
+            <div class="foot"><div class="alum"><span class="alum-dot"></span><span>6 alumni from your school</span></div><span class="apply">Apply →</span></div>
+          </a>
+          <a href="#" class="job-card">
+            <div class="title">Asset & Wealth Management</div>
+            <div class="pills"><span class="pill">New York</span><span class="pill">Full-time</span><span class="pill">AWM</span></div>
+            <div class="foot"><div class="alum"><span class="alum-dot"></span><span>9 alumni from your school</span></div><span class="apply">Apply →</span></div>
+          </a>
+          <a href="#" class="job-card">
+            <div class="title">Business Analyst, Strategy</div>
+            <div class="pills"><span class="pill">Chicago</span><span class="pill">Full-time</span><span class="pill">Consulting</span></div>
+            <div class="foot"><div class="alum"><span class="alum-dot"></span><span>8 alumni from your school</span></div><span class="apply">Apply →</span></div>
+          </a>
+          <a href="#" class="job-card">
+            <div class="title">PE Associate, Buyouts</div>
+            <div class="pills"><span class="pill">New York</span><span class="pill">2026 Class</span><span class="pill">PE</span></div>
+            <div class="foot"><div class="alum"><span class="alum-dot"></span><span>5 alumni from your school</span></div><span class="apply">Apply →</span></div>
+          </a>
+          <a href="#" class="job-card">
+            <div class="title">Sales & Trading</div>
+            <div class="pills"><span class="pill">New York</span><span class="pill">Summer 2026</span><span class="pill">S&T</span></div>
+            <div class="foot"><div class="alum"><span class="alum-dot"></span><span>7 alumni from your school</span></div><span class="apply">Apply →</span></div>
+          </a>
+          <a href="#" class="job-card">
+            <div class="title">Quantitative Analyst</div>
+            <div class="pills"><span class="pill">New York</span><span class="pill">Full-time</span><span class="pill">Quant</span></div>
+            <div class="foot"><div class="alum"><span class="alum-dot"></span><span>4 alumni from your school</span></div><span class="apply">Apply →</span></div>
+          </a>
+          <a href="#" class="job-card">
+            <div class="title">Business Analyst, Consulting</div>
+            <div class="pills"><span class="pill">Boston</span><span class="pill">Full-time</span><span class="pill">Consulting</span></div>
+            <div class="foot"><div class="alum"><span class="alum-dot"></span><span>11 alumni from your school</span></div><span class="apply">Apply →</span></div>
+          </a>
+        </div>
+        <div class="section-actions">
+          <button type="button" class="cta-btn">Explore all roles <span class="arrow">→</span></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Your clubs -->
+    <section class="section">
+      <div class="section-inner">
+        <div class="sec-kicker">Your clubs</div>
+        <h2 class="sec-title">Join your organization.</h2>
+        <p class="sec-sub">Connect with current members, explore alumni paths, and see where your organization has placed — across every school and chapter.</p>
+        <div class="scroll-track" id="track-clubs">
+          <div class="club-card">
+            <div class="card-top"><div class="av">FAC</div><div class="info"><div class="name">Financial Analysts Club</div><div class="school">Harvard University</div></div></div>
+            <div class="foot"><div class="avatars"><span class="av-sm"></span><span class="av-sm"></span><span class="av-sm"></span><span class="av-sm"></span><span class="member-count">+64 members</span></div><button type="button" class="view-btn">View →</button></div>
+          </div>
+          <div class="club-card">
+            <div class="card-top"><div class="av">DSP</div><div class="info"><div class="name">Delta Sigma Pi</div><div class="school">Duke University</div></div></div>
+            <div class="foot"><div class="avatars"><span class="av-sm"></span><span class="av-sm"></span><span class="av-sm"></span><span class="av-sm"></span><span class="member-count">+70 members</span></div><button type="button" class="view-btn">View →</button></div>
+          </div>
+          <div class="club-card">
+            <div class="card-top"><div class="av">AK</div><div class="info"><div class="name">Alpha Kappa Psi</div><div class="school">Cornell University</div></div></div>
+            <div class="foot"><div class="avatars"><span class="av-sm"></span><span class="av-sm"></span><span class="av-sm"></span><span class="av-sm"></span><span class="member-count">+77 members</span></div><button type="button" class="view-btn">View →</button></div>
+          </div>
+          <div class="club-card">
+            <div class="card-top"><div class="av">IC</div><div class="info"><div class="name">Investment Club</div><div class="school">Vanderbilt University</div></div></div>
+            <div class="foot"><div class="avatars"><span class="av-sm"></span><span class="av-sm"></span><span class="av-sm"></span><span class="av-sm"></span><span class="member-count">+85 members</span></div><button type="button" class="view-btn">View →</button></div>
+          </div>
+          <div class="club-card">
+            <div class="card-top"><div class="av">CC</div><div class="info"><div class="name">Consulting Club</div><div class="school">Georgetown University</div></div></div>
+            <div class="foot"><div class="avatars"><span class="av-sm"></span><span class="av-sm"></span><span class="av-sm"></span><span class="av-sm"></span><span class="member-count">+55 members</span></div><button type="button" class="view-btn">View →</button></div>
+          </div>
+          <div class="club-card">
+            <div class="card-top"><div class="av">1D</div><div class="info"><div class="name">180 Degrees Consulting</div><div class="school">University of Michigan</div></div></div>
+            <div class="foot"><div class="avatars"><span class="av-sm"></span><span class="av-sm"></span><span class="av-sm"></span><span class="av-sm"></span><span class="member-count">+43 members</span></div><button type="button" class="view-btn">View →</button></div>
+          </div>
+          <div class="club-card">
+            <div class="card-top"><div class="av">FC</div><div class="info"><div class="name">Finance Club</div><div class="school">Brown University</div></div></div>
+            <div class="foot"><div class="avatars"><span class="av-sm"></span><span class="av-sm"></span><span class="av-sm"></span><span class="av-sm"></span><span class="member-count">+59 members</span></div><button type="button" class="view-btn">View →</button></div>
+          </div>
+          <div class="club-card">
+            <div class="card-top"><div class="av">BG</div><div class="info"><div class="name">BlackGen Capital</div><div class="school">Columbia University</div></div></div>
+            <div class="foot"><div class="avatars"><span class="av-sm"></span><span class="av-sm"></span><span class="av-sm"></span><span class="av-sm"></span><span class="member-count">+40 members</span></div><button type="button" class="view-btn">View →</button></div>
+          </div>
+          <div class="club-card">
+            <div class="card-top"><div class="av">GE</div><div class="info"><div class="name">Growth Equity Club</div><div class="school">University of Pennsylvania</div></div></div>
+            <div class="foot"><div class="avatars"><span class="av-sm"></span><span class="av-sm"></span><span class="av-sm"></span><span class="av-sm"></span><span class="member-count">+34 members</span></div><button type="button" class="view-btn">View →</button></div>
+          </div>
+          <div class="club-card">
+            <div class="card-top"><div class="av">WB</div><div class="info"><div class="name">Women in Business</div><div class="school">Northwestern University</div></div></div>
+            <div class="foot"><div class="avatars"><span class="av-sm"></span><span class="av-sm"></span><span class="av-sm"></span><span class="av-sm"></span><span class="member-count">+88 members</span></div><button type="button" class="view-btn">View →</button></div>
+          </div>
+        </div>
+        <div class="section-actions">
+          <button type="button" class="cta-btn">Explore all clubs <span class="arrow">→</span></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+      <div class="cta-inner">
+        <h2>Your peers are already<br>on the inside.<br><em>Join them.</em></h2>
+        <div class="cta-aside">
+          <span class="cta-note">Free to join · No credit card</span>
+          <a href="#" class="btn-white">Create Your Profile</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <a href="#" class="ft-logo">
+      <div class="ft-mark">
+        <svg width="9" height="10" viewBox="0 0 13 15" fill="none"><path d="M2 1.5h5a3.5 3.5 0 010 7H2M7 8.5l4 5" stroke="#111" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <span class="ft-word">RECRUITU</span>
+    </a>
+    <span class="ft-copy">© 2025 RecruitU, Inc.</span>
+  </footer>
+
+  <script>
+    (function() {
+      var nav = document.getElementById('nav');
+      function onScroll() {
+        nav.classList.toggle('scrolled', window.scrollY > 10);
+      }
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    })();
+    (function() {
+      var wrap = document.getElementById('track-wrap');
+      var btn = document.getElementById('track-btn');
+      var dropdown = document.getElementById('track-dropdown');
+      if (!btn || !dropdown) return;
+      btn.addEventListener('click', function() {
+        wrap.classList.toggle('open');
+        btn.setAttribute('aria-expanded', wrap.classList.contains('open'));
+      });
+      document.addEventListener('click', function(e) {
+        if (wrap && !wrap.contains(e.target)) wrap.classList.remove('open');
+      });
+    })();
+  </script>
+</body>
+</html>
