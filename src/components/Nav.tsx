@@ -4,8 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 /**
- * Nav — Sticky top bar with logo, "For Students" tab (active), and CTAs.
- * We only show the student experience; employer tab is hidden for now.
+ * Nav — Sticky top bar with logo and CTAs (Log in, Join Free).
  */
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
@@ -40,20 +39,6 @@ export default function Nav() {
             RECRUITU
           </span>
         </Link>
-
-        <div className="absolute left-1/2 top-0 flex h-full -translate-x-1/2 items-stretch">
-          <button
-            type="button"
-            className="font-mono text-[0.57rem] uppercase tracking-wider px-5 md:px-6 border-b-2 border-[var(--blue)] text-[var(--blue)] mb-[-1px] transition-colors"
-            aria-current="page"
-          >
-            For Students
-          </button>
-          {/* For Employers tab hidden for now — uncomment when you add that page */}
-          {/* <button type="button" className="font-mono text-[0.57rem] uppercase tracking-wider px-5 text-[var(--gray-500)] border-b-2 border-transparent hover:text-[var(--gray-900)]">
-            For Employers
-          </button> */}
-        </div>
 
         <div className="flex items-center gap-2 shrink-0">
           <Link
