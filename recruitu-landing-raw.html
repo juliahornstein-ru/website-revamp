@@ -40,10 +40,7 @@
     nav .logo-mark { width: 26px; height: 26px; border: 1.5px solid var(--gray-900); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
     nav .logo-text { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gray-900); white-space: nowrap; transition: opacity 0.25s, transform 0.35s, max-width 0.35s; max-width: 120px; }
     nav.scrolled .logo-text { max-width: 0; opacity: 0; transform: translateX(-12px); overflow: hidden; }
-    nav .nav-tabs { position: absolute; left: 50%; transform: translateX(-50%); display: flex; height: 100%; align-items: stretch; }
-    nav .nav-tab { font-family: 'DM Mono', monospace; font-size: 0.57rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0 1.25rem; border: none; background: transparent; border-bottom: 2px solid var(--blue); color: var(--blue); margin-bottom: -1px; cursor: default; }
-    @media (min-width: 768px) { nav .nav-tab { padding: 0 1.5rem; } }
-    nav .nav-right { display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; }
+    nav .nav-right { display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; margin-left: auto; }
     nav .nav-cta { font-family: 'DM Mono', monospace; font-size: 0.55rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.5rem 1rem; border-radius: 6px; text-decoration: none; transition: background 0.15s; display: inline-block; }
     nav .nav-cta.login { background: #e8e8e6; color: var(--gray-900); }
     nav .nav-cta.login:hover { background: #c0c0be; }
@@ -93,7 +90,7 @@
     .people-card { flex: 0 0 300px; border: 1px solid #e4e4e0; border-radius: 6px; padding: 1rem; background: #fff; cursor: pointer; transition: border-color 0.15s, background 0.15s; }
     .people-card:hover { border-color: #2563EB; background: #fafbff; }
     .people-card .card-top { display: flex; align-items: center; gap: 0.625rem; margin-bottom: 0.75rem; }
-    .people-card .av { width: 34px; height: 34px; border-radius: 4px; background: #e8e8e4; color: #555; font-size: 0.62rem; font-weight: 600; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .people-card .av { width: 34px; height: 34px; border-radius: 50%; background: #f0efed; color: #555; font-size: 0.62rem; font-weight: 600; display: flex; align-items: center; justify-content: center; flex-shrink: 0; position: relative; outline: 2px solid rgba(37,99,235,0.35); outline-offset: 2px; }
     .people-card .info { flex: 1; min-width: 0; }
     .people-card .name { font-size: 0.84rem; font-weight: 400; color: #111; letter-spacing: -0.01em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .people-card .role { font-size: 0.71rem; color: #888; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -159,14 +156,18 @@
     /* CTA section */
     .cta-section { background: var(--gray-900); padding: 4rem 1.25rem; }
     @media (min-width: 768px) { .cta-section { padding-left: 2.5rem; padding-right: 2.5rem; } }
-    .cta-inner { max-width: 1120px; margin: 0 auto; display: grid; grid-template-columns: 1fr; gap: 3.5rem; align-items: center; }
-    @media (min-width: 768px) { .cta-inner { grid-template-columns: 1fr auto; } }
+    .cta-inner { max-width: 1120px; margin: 0 auto; display: flex; flex-direction: column; gap: 2.5rem; align-items: center; justify-content: space-between; }
+    @media (min-width: 768px) { .cta-inner { flex-direction: row; gap: 2rem; } }
+    .cta-left { flex: 1; }
     .cta-section h2 { font-family: 'Instrument Serif', serif; font-size: clamp(2.2rem, 4vw, 4.2rem); font-weight: 400; line-height: 1.05; letter-spacing: -0.025em; color: #fff; }
-    .cta-section h2 em { font-style: italic; color: rgba(255,255,255,0.3); }
-    .cta-aside { display: flex; flex-direction: column; gap: 0.625rem; min-width: 200px; }
-    .cta-note { font-family: 'DM Mono', monospace; font-size: 0.5rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.35); }
-    .btn-white { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.75rem 1.5rem; background: #fff; color: var(--gray-900); text-decoration: none; border-radius: 6px; text-align: center; display: inline-block; transition: background 0.08s; }
-    .btn-white:hover { background: var(--gray-100); }
+    .cta-join-wrap { display: flex; align-items: center; gap: 0.75rem; margin-top: 2px; flex-wrap: wrap; }
+    .cta-join-link { font-family: 'Instrument Serif', serif; font-size: clamp(2.2rem, 4vw, 4.2rem); font-weight: 400; line-height: 1.05; letter-spacing: -0.025em; font-style: italic; color: rgba(255,255,255,0.3); text-decoration: none; transition: color 0.3s; }
+    .cta-join-link:hover { color: #fff; }
+    .cta-note { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.35); white-space: nowrap; transition: color 0.3s; }
+    .cta-join-link:hover + .cta-note { color: rgba(255,255,255,0.6); }
+    .cta-nav { display: flex; flex-direction: column; gap: 2px; border-left: 1px solid rgba(255,255,255,0.1); padding-left: 1.5rem; }
+    .cta-nav a { font-family: 'DM Mono', monospace; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.75rem 0; color: rgba(255,255,255,0.65); text-decoration: none; transition: color 0.15s; }
+    .cta-nav a:hover { color: rgba(255,255,255,0.95); }
 
     /* Footer */
     footer { display: flex; align-items: center; justify-content: space-between; padding: 1.5rem 1.25rem; border-top: 1px solid var(--gray-200); background: #fff; flex-wrap: wrap; gap: 1rem; }
@@ -190,9 +191,6 @@
         </div>
         <span class="logo-text">RECRUITU</span>
       </a>
-      <div class="nav-tabs">
-        <button type="button" class="nav-tab" aria-current="page">For Students</button>
-      </div>
       <div class="nav-right">
         <a href="#" class="nav-cta login">Log in</a>
         <a href="#" class="nav-cta primary">Join Free</a>
@@ -466,11 +464,19 @@
     <!-- CTA -->
     <section class="cta-section">
       <div class="cta-inner">
-        <h2>Your peers are already<br>on the inside.<br><em>Join them.</em></h2>
-        <div class="cta-aside">
-          <span class="cta-note">Free to join · No credit card</span>
-          <a href="#" class="btn-white">Create Your Profile</a>
+        <div class="cta-left">
+          <h2>Your peers are already<br>on the inside.</h2>
+          <div class="cta-join-wrap">
+            <a href="/signup" class="cta-join-link">Join them.</a>
+            <span class="cta-note">Free to join · No credit card</span>
+          </div>
         </div>
+        <nav class="cta-nav">
+          <a href="/enterprise">For Enterprises →</a>
+          <a href="/about">About Us →</a>
+          <a href="/security">Security Standards →</a>
+          <a href="/contact">Contact Us →</a>
+        </nav>
       </div>
     </section>
   </main>
