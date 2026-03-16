@@ -4,7 +4,10 @@
  */
 export interface LegalBlock {
   subheading: string;
-  paragraphs: string[];
+  /** When set, block content is a mix of paragraphs (string) and lists (LegalList) in order. */
+  content?: (string | LegalList)[];
+  /** When content is not set, use paragraphs only. */
+  paragraphs?: string[];
 }
 export interface LegalTableRow {
   category: string;
@@ -16,7 +19,12 @@ export interface LegalTable {
   headerCol2: string;
   rows: LegalTableRow[];
 }
-export type LegalContentItem = string | LegalBlock | LegalTable;
+export interface LegalList {
+  listItems: string[];
+  /** When true, render as numbered list (ol); otherwise bullet list (ul). */
+  ordered?: boolean;
+}
+export type LegalContentItem = string | LegalBlock | LegalTable | LegalList;
 export interface LegalSection {
   id: string;
   title: string;
@@ -29,10 +37,9 @@ export const legalSections: LegalSection[] = [
     title: "Privacy Policy",
     content: [
       "Effective date: March 28, 2025",
-      'Recruit.U ("Company," "We" or "us") respect your privacy and are committed to protecting it through our compliance with this policy. This policy describes the types of information we may collect from you or that you may provide when you visit the website www.recruitu.io (our "Website") and our practices for collecting, using, maintaining, protecting, disclosing, sharing and/or selling that information. This policy applies to information we collect:',
+      'Recruit.U (**"Company,"** **"We"** or **"us"**) respect your privacy and are committed to protecting it through our compliance with this policy. This policy describes the types of information we may collect from you or that you may provide when you visit the website www.recruitu.io (our **"Website"**) and our practices for collecting, using, maintaining, protecting, disclosing, sharing and/or selling that information. This policy applies to information we collect:',
       "On this Website; In email, text, and other electronic messages between you and this Website; and When you interact with our advertising and applications on third-party websites and services, if those applications or advertising include links to this policy.",
-      "It does not apply to information collected by:",
-      "Us offline or through any other means, including on any other website operated by Company or any third party; or Any third party, including through any application or content (including advertising) that may link to or be accessible from or through the Website.",
+      "It does not apply to information collected by: Us offline or through any other means, including on any other website operated by Company or any third party; or Any third party, including through any application or content (including advertising) that may link to or be accessible from or through the Website.",
       "Please read this policy carefully to understand our policies and practices regarding your information and how we will treat it. If you do not agree with our policies and practices, your choice is not to use our Website. By clicking to accept or agree to the Privacy Policy when this option is made available to you or otherwise by accessing or using this Website, you agree to this privacy policy. This policy may change from time to time (see Changes to Our Privacy Policy). Your continued use of this Website after we make changes is deemed to be acceptance of those changes, so please check the policy periodically for updates.",
     ],
   },
@@ -49,15 +56,51 @@ export const legalSections: LegalSection[] = [
     title: "Information We Collect About You and How We Collect It",
     content: [
       "We collect several types of information from and about users of our Website, including information:",
-      "By which you may be personally identified, such as: Name, Professional and non-professional experience/history, Education, Postal address, Email address, Telephone number. Any other identifier by which you may be contacted online or offline (“personal information”)",
-      "About your internet connection, the equipment you use to access our Website, and usage details.",
-      "We collect this information: Directly from you when you provide it to us; Automatically as you navigate through the site. Information collected automatically may include usage details, IP addresses, and information collected through cookies, web beacons, and other tracking technologies; and From third parties, for example, our business partners.",
+      {
+        listItems: [
+          "By which you may be personally identified, such as:",
+          "Name, Professional and non-professional experience/history, Education, Postal address, Email address, Telephone number",
+          "Any other identifier by which you may be contacted online or offline (\"personal information\")",
+          "About your internet connection, the equipment you use to access our Website, and usage details.",
+        ],
+      },
+      "We collect this information:",
+      {
+        listItems: [
+          "Directly from you when you provide it to us;",
+          "Automatically as you navigate through the site. Information collected automatically may include usage details, IP addresses, and information collected through cookies, web beacons, and other tracking technologies; and",
+          "From third parties, for example, our business partners.",
+        ],
+      },
       {
         subheading: "Information You Provide to Us",
-        paragraphs: [
-          "Account Information — If you create an Account, you will provide information that could be personal information, such as your name, educational background, work history, and interests, as well as a username, password, and email address. You acknowledge that this information may be personal to you, and by creating an account on the Services and providing Personal Information to us, you allow others, including us, to identify you and therefore may not be anonymous. We may use your contact information to send you information about our services, but only when we feel such information is important, and where you have given your consent if required under applicable law. You may unsubscribe from these messages through your Account settings, although we, regardless, reserve the right to contact you when we believe it is necessary, such as for account recovery purposes.",
-          "User Content — Some features of the Services may allow you to provide content to the Services, such as a detailed educational and work profile and a resume. All content submitted by you to the Services may be retained by us indefinitely, even after you terminate your account. We may continue to disclose such content to third parties in a manner that does not reveal Personal Information, as described in this Privacy Policy.",
-          "Additional Information — Information that you provide by filling in forms on our Website. This includes information provided at the time of registering to use our Website, subscribing to our service, posting material, or requesting further services. We may also ask you for information when you enter a contest or promotion sponsored by us, and when you report a problem with our Website. Records and copies of your correspondence, including email addresses, if you contact us. Your responses to surveys that we might ask you to complete for research purposes. Your search queries on the Website. You also may provide information to be published or displayed (hereinafter, \"posted\") on public areas of the Website, or transmitted to other users of the Website or third parties (collectively, \"User Contributions\"). Your User Contributions are posted on and transmitted to others at your own risk. Additionally, we cannot control the actions of other users of the Website with whom you may choose to share your User Contributions. Therefore, we cannot and do not guarantee that your User Contributions will not be viewed by unauthorized persons.",
+        content: [
+          "**Account Information**",
+          {
+            listItems: [
+              "If you create an Account, you will provide information that could be personal information, such as your name, educational background, work history, and interests, as well as a username, password, and email address.",
+              "You acknowledge that this information may be personal to you, and by creating an account on the Services and providing Personal Information to us, you allow others, including us, to identify you and therefore may not be anonymous.",
+              "We may use your contact information to send you information about our services, but only when we feel such information is important, and where you have given your consent if required under applicable law.",
+              "You may unsubscribe from these messages through your Account settings, although we, regardless, reserve the right to contact you when we believe it is necessary, such as for account recovery purposes.",
+            ],
+          },
+          "**User Content**",
+          {
+            listItems: [
+              "Some features of the Services may allow you to provide content to the Services, such as a detailed educational and work profile and a resume. All content submitted by you to the Services may be retained by us indefinitely, even after you terminate your account.",
+              "We may continue to disclose such content to third parties in a manner that does not reveal Personal Information, as described in this Privacy Policy.",
+            ],
+          },
+          "**Additional Information**",
+          {
+            listItems: [
+              "Information that you provide by filling in forms on our Website. This includes information provided at the time of registering to use our Website, subscribing to our service, posting material, or requesting further services. We may also ask you for information when you enter a contest or promotion sponsored by us, and when you report a problem with our Website.",
+              "Records and copies of your correspondence, including email addresses, if you contact us.",
+              "Your responses to surveys that we might ask you to complete for research purposes.",
+              "Your search queries on the Website.",
+            ],
+          },
+          "You also may provide information to be published or displayed (hereinafter, **\"posted\"**) on public areas of the Website, or transmitted to other users of the Website or third parties (collectively, **\"User Contributions\"**). Your User Contributions are posted on and transmitted to others at your own risk. Additionally, we cannot control the actions of other users of the Website with whom you may choose to share your User Contributions. Therefore, we cannot and do not guarantee that your User Contributions will not be viewed by unauthorized persons.",
         ],
       },
     ],
@@ -67,12 +110,30 @@ export const legalSections: LegalSection[] = [
     title: "Information We Collect Through Automatic Data Collection Technologies",
     content: [
       "As you navigate through and interact with our Website, we may use automatic data collection technologies to collect certain information about your equipment, browsing actions, and patterns, including:",
-      "Details of your visits to our Website, including traffic data, location data, logs, and other communication data and the resources that you access and use on the Website. Information about your computer and internet connection, including your IP address, operating system, and browser type. We also may use these technologies to collect information about your online activities over time and across third-party websites or other online services (behavioral tracking).",
-      "The information we collect automatically does include personal information, but we maintain it or associate it with personal information we collect in other ways or receive from third parties. It helps us to improve our Website and to deliver a better and more personalized service, including by enabling us to: Estimate our audience size and usage patterns. Store information about your preferences, allowing us to customize our Website according to your individual interests. Speed up your searches. Recognize you when you return to our Website.",
+      {
+        listItems: [
+          "Details of your visits to our Website, including traffic data, location data, logs, and other communication data and the resources that you access and use on the Website.",
+          "Information about your computer and internet connection, including your IP address, operating system, and browser type.",
+          "We also may use these technologies to collect information about your online activities over time and across third-party websites or other online services (behavioral tracking).",
+        ],
+      },
+      "The information we collect automatically does include personal information, but we maintain it or associate it with personal information we collect in other ways or receive from third parties. It helps us to improve our Website and to deliver a better and more personalized service, including by enabling us to:",
+      {
+        listItems: [
+          "Estimate our audience size and usage patterns.",
+          "Store information about your preferences, allowing us to customize our Website according to your individual interests.",
+          "Speed up your searches.",
+          "Recognize you when you return to our Website.",
+        ],
+      },
       "The technologies we use for this automatic data collection may include:",
-      "Cookies (or browser cookies). A cookie is a small file placed on the hard drive of your computer. You may refuse to accept browser cookies by activating the appropriate setting on your browser. However, if you select this setting you may be unable to access certain parts of our Website. Unless you have adjusted your browser setting so that it will refuse cookies, our system will issue cookies when you direct your browser to our Website.",
-      "Web Beacons. Pages of our Website and our emails may contain small electronic files known as web beacons (also referred to as clear gifs, pixel tags, and single-pixel gifs) that permit the Company, for example, to count users who have visited those pages or opened an email and for other related website statistics (for example, recording the popularity of certain website content and verifying system and server integrity).",
-      "Flash Cookies. Certain features of our Website may use local stored objects (or Flash cookies) to collect and store information about your preferences and navigation to, from, and on our Website. Flash cookies are not managed by the same browser settings as are used for browser cookies. For information about managing your privacy and security settings for Flash cookies, see Choices About How We Use and Disclose Your Information.",
+      "**Cookies (or browser cookies).** A cookie is a small file placed on the hard drive of your computer. You may refuse to accept browser cookies by activating the appropriate setting on your browser. However, if you select this setting you may be unable to access certain parts of our Website. Unless you have adjusted your browser setting so that it will refuse cookies, our system will issue cookies when you direct your browser to our Website.",
+      {
+        listItems: [
+          "**Web Beacons.** Pages of our Website and our emails may contain small electronic files known as web beacons (also referred to as clear gifs, pixel tags, and single-pixel gifs) that permit the Company, for example, to count users who have visited those pages or opened an email and for other related website statistics (for example, recording the popularity of certain website content and verifying system and server integrity).",
+          "**Flash Cookies.** Certain features of our Website may use local stored objects (or Flash cookies) to collect and store information about your preferences and navigation to, from, and on our Website. Flash cookies are not managed by the same browser settings as are used for browser cookies. For information about managing your privacy and security settings for Flash cookies, see Choices About How We Use and Disclose Your Information.",
+        ],
+      },
       "We do not collect personal information automatically, but we may tie this information to personal information about you that we collect from other sources or you provide to us.",
     ],
   },
@@ -88,7 +149,18 @@ export const legalSections: LegalSection[] = [
     title: "How We Use Your Information",
     content: [
       "We use information that we collect about you or that you provide to us, including any personal information:",
-      "To present our Website and its contents to you. To provide you with information, products, or services that you request from us such as job opportunities. The personal Information you provide is entered into a database that is searchable by employers who have decided to use our Services. In the event that an employer determines it wishes to contact you, that employer can use the Personal Information you provided to us to contact you directly. To provide you with notices about your account/subscription, including expiration and renewal notices. To carry out our obligations and enforce our rights arising from any contracts entered into between you and us, including for billing and collection. To notify you about changes to our Website or any products or services we offer or provide through it. In any other way we may describe when you provide the information. For any other purpose with your consent.",
+      {
+        listItems: [
+          "To present our Website and its contents to you.",
+          "To provide you with information, products, or services that you request from us such as job opportunities.",
+          "The personal Information you provide is entered into a database that is searchable by employers who have decided to use our Services. In the event that an employer determines it wishes to contact you, that employer can use the Personal Information you provided to us to contact you directly.",
+          "To provide you with notices about your account/subscription, including expiration and renewal notices.",
+          "To carry out our obligations and enforce our rights arising from any contracts entered into between you and us, including for billing and collection.",
+          "To notify you about changes to our Website or any products or services we offer or provide through it.",
+          "In any other way we may describe when you provide the information.",
+          "For any other purpose with your consent.",
+        ],
+      },
       "We may also use your information to contact you about our own and third-parties' goods and services that may be of interest to you. If you do not want us to use your information in this way, please check the relevant box located on the form on which we collect your data (the order form/registration form)/adjust your user preferences in your account profile. For more information, see Choices About How We Use and Disclose Your Information.",
       "We may use the information we have collected from you to enable us to display advertisements to our advertisers' target audiences. Even though we do not disclose your personal information for these purposes without your consent, if you click on or otherwise interact with an advertisement, the advertiser may assume that you meet its target criteria.",
     ],
@@ -98,8 +170,25 @@ export const legalSections: LegalSection[] = [
     title: "Disclosure of Your Information",
     content: [
       "We may disclose aggregated information about our users and information that does not identify any individual without restriction.",
-      "We may disclose personal information that we collect or you provide as described in this privacy policy: To our subsidiaries and affiliates. To contractors, service providers, and other third parties we use to support our business and who are bound by contractual obligations to keep personal information confidential and use it only for the purposes for which we disclose it to them. To a buyer or other successor in the event of a merger, divestiture, restructuring, reorganization, dissolution, or other sale or transfer of some or all of Recruit.U assets, whether as a going concern or as part of bankruptcy, liquidation, or similar proceeding, in which personal information held by Recruit.U about our Website users is among the assets transferred. To third parties to market their products or services to you if you have consented to these disclosures. We contractually require these third parties to keep personal information confidential and use it only for the purposes for which we disclose it to them. For more information, see Choices About How We Use and Disclose Your Information. To fulfill the purpose for which you provide it. For example, if you give us an email address to use the \"email a friend\" feature of our Website, we will transmit the contents of that email and your email address to the recipients. For any other purpose disclosed by us when you provide the information. With your consent.",
-      "We may also disclose your personal information: To comply with any court order, law, or legal process, including to respond to any government or regulatory request. If we believe disclosure is necessary or appropriate to protect the rights, property, or safety of Recruit.U, our customers, or others. This includes exchanging information with other companies and organizations for the purposes of fraud protection and credit risk reduction.",
+      "**We may disclose personal information that we collect or you provide as described in this privacy policy:**",
+      {
+        listItems: [
+          "To our subsidiaries and affiliates.",
+          "To contractors, service providers, and other third parties we use to support our business and who are bound by contractual obligations to keep personal information confidential and use it only for the purposes for which we disclose it to them.",
+          "To a buyer or other successor in the event of a merger, divestiture, restructuring, reorganization, dissolution, or other sale or transfer of some or all of Recruit.U assets, whether as a going concern or as part of bankruptcy, liquidation, or similar proceeding, in which personal information held by Recruit.U about our Website users is among the assets transferred.",
+          "To third parties to market their products or services to you if you have consented to these disclosures. We contractually require these third parties to keep personal information confidential and use it only for the purposes for which we disclose it to them. For more information, see Choices About How We Use and Disclose Your Information.",
+          "To fulfill the purpose for which you provide it. For example, if you give us an email address to use the \"email a friend\" feature of our Website, we will transmit the contents of that email and your email address to the recipients.",
+          "For any other purpose disclosed by us when you provide the information.",
+          "With your consent.",
+        ],
+      },
+      "**We may also disclose your personal information:**",
+      {
+        listItems: [
+          "To comply with any court order, law, or legal process, including to respond to any government or regulatory request.",
+          "If we believe disclosure is necessary or appropriate to protect the rights, property, or safety of Recruit.U, our customers, or others. This includes exchanging information with other companies and organizations for the purposes of fraud protection and credit risk reduction.",
+        ],
+      },
     ],
   },
   {
@@ -107,11 +196,19 @@ export const legalSections: LegalSection[] = [
     title: "Choices About How We Use and Disclose Your Information",
     content: [
       "We strive to provide you with choices regarding the personal information you provide to us. We have created mechanisms to provide you with the following control over your information:",
-      "Tracking Technologies and Advertising. You can set your browser to refuse all or some browser cookies, or to alert you when cookies are being sent. To learn how you can manage your Flash cookie settings, visit the Flash player settings page on Adobe's website. If you disable or refuse cookies, please note that some parts of this site may then be inaccessible or not function properly.",
-      "Promotional Offers from the Company. If you do not wish to have your email address/contact information used by the Company to promote our own or third parties' products or services, you can opt-out by checking the relevant box located on the form on which we collect your data (the registration form) or at any other time by logging into the Website and adjusting your user preferences in your account profile by checking or unchecking the relevant boxes or by sending us an email stating your request to support@recruitu.com",
+      {
+        listItems: [
+          "**Tracking Technologies and Advertising.** You can set your browser to refuse all or some browser cookies, or to alert you when cookies are being sent. To learn how you can manage your Flash cookie settings, visit the Flash player settings page on Adobe's website. If you disable or refuse cookies, please note that some parts of this site may then be inaccessible or not function properly.",
+          "**Promotional Offers from the Company.** If you do not wish to have your email address/contact information used by the Company to promote our own or third parties' products or services, you can opt-out by checking the relevant box located on the form on which we collect your data (the registration form) or at any other time by logging into the Website and adjusting your user preferences in your account profile by checking or unchecking the relevant boxes or by sending us an email stating your request to support@recruitu.com",
+        ],
+      },
       "If we have sent you a promotional email, you may send us a return email asking to be omitted from future email distributions. This opt out does not apply to information provided to the Company as a result of a product purchase, warranty registration, product service experience or other transactions.",
-      "Targeted Advertising. If you do not want us to use information that we collect or that you provide to us to deliver advertisements according to our advertisers' target-audience preferences, you can opt-out by unsubscribing from our content. For this opt-out to function, you must have your browser set to accept all browser cookies.",
-      "We do not control third parties' collection or use of your information to serve interest-based advertising. However these third parties may provide you with ways to choose not to have your information collected or used in this way. You can opt out of receiving targeted ads from members of the Network Advertising Initiative (\"NAI\") on the NAI's website.",
+      {
+        listItems: [
+          "**Targeted Advertising.** If you do not want us to use information that we collect or that you provide to us to deliver advertisements according to our advertisers' target-audience preferences, you can opt-out by unsubscribing from our content. For this opt-out to function, you must have your browser set to accept all browser cookies.",
+        ],
+      },
+      "We do not control third parties' collection or use of your information to serve interest-based advertising. However these third parties may provide you with ways to choose not to have your information collected or used in this way. You can opt out of receiving targeted ads from members of the Network Advertising Initiative (**\"NAI\"**) on the NAI's website.",
       "Residents of certain states, such as California, Nevada, Colorado, Connecticut, Virginia, and Utah may have additional personal information rights and choices. Please see Your State Privacy Rights for more information.",
     ],
   },
@@ -120,12 +217,16 @@ export const legalSections: LegalSection[] = [
     title: "Accessing and Correcting Your Information",
     content: [
       "In accordance with applicable law:",
-      "You can review and change your personal information by logging into the Website and visiting your account profile page.",
-      "You may also send us an email at support@recruitu.com to request access to, correct or delete any personal information that you have provided to us. We cannot delete your personal information except by also deleting your user account. We may not accommodate a request to change information if we believe the change would violate any law or legal requirement or cause the information to be incorrect.",
-      "If you delete your User Contributions from the Website, copies of your User Contributions may remain viewable in cached and archived pages, or might have been copied or stored by other Website users. Proper access and use of information provided on the Website, including User Contributions, is governed by our terms of use - Terms and Conditions.",
-      "You may also send us an email at support@recruitu.com to request we transfer the personal information that we have collected to another organization, or directly to you, under certain conditions.",
-      "Residents have the right not to receive discriminatory treatment by covered businesses for the exercise of their rights conferred by the applicable privacy law. Only you, or someone legally authorized to act on your behalf, may make a verifiable consumer request related to your personal information. You may also make a verifiable consumer request on behalf of your minor child. To designate an authorized agent, please contact us at support@recruitu.com and provide written authorization signed by you and your designated agent.",
-      "To appeal a decision regarding a consumer rights request please email support@recruitu.com. In addition, if your request for reconsideration is denied, you may have the right to appeal to the Attorney General in your state of residence.",
+      {
+        listItems: [
+          "You can review and change your personal information by logging into the Website and visiting your account profile page.",
+          "You may also send us an email at support@recruitu.com to request access to, correct or delete any personal information that you have provided to us. We cannot delete your personal information except by also deleting your user account. We may not accommodate a request to change information if we believe the change would violate any law or legal requirement or cause the information to be incorrect.",
+          "If you delete your User Contributions from the Website, copies of your User Contributions may remain viewable in cached and archived pages, or might have been copied or stored by other Website users. Proper access and use of information provided on the Website, including User Contributions, is governed by our terms of use - Terms and Conditions.",
+          "You may also send us an email at support@recruitu.com to request we transfer the personal information that we have collected to another organization, or directly to you, under certain conditions.",
+          "Residents have the right not to receive discriminatory treatment by covered businesses for the exercise of their rights conferred by the applicable privacy law. Only you, or someone legally authorized to act on your behalf, may make a verifiable consumer request related to your personal information. You may also make a verifiable consumer request on behalf of your minor child. To designate an authorized agent, please contact us at support@recruitu.com and provide written authorization signed by you and your designated agent.",
+          "To appeal a decision regarding a consumer rights request please email support@recruitu.com. In addition, if your request for reconsideration is denied, you may have the right to appeal to the Attorney General in your state of residence.",
+        ],
+      },
     ],
   },
   {
@@ -415,7 +516,7 @@ export const legalSections: LegalSection[] = [
     title: "Terms of Use",
     content: [
       "Effective date: March 28, 2025",
-      "These terms of use are entered into by and between You (\"You\") and Recruit.U (\"Company,\" \"we,\" or \"us\"). The following terms and conditions, together with Recruit.U's Privacy Policy, govern your access to and use of https://www.recruitu.io, including any content, software, functionality and services offered on or through https://www.recruitu.io (collectively, the \"Website\"). Please read the Terms of Use carefully before You start to use the Website. By clicking to accept or agree to the Terms of Use when this option is made available to You, or by otherwise accessing or using the Website, You accept and agree to be bound and abide by these Terms of Use and our Privacy Policy, found at the Privacy Policy URL, incorporated herein by reference. If You do not want to agree to these Terms of Use or the Privacy Policy, You must not access or use the Website.",
+      "These terms of use are entered into by and between You (\"You\") and Recruit.U (\"**Company,**\" \"**we,**\" or \"**us**\"). The following terms and conditions, together with Recruit.U's Privacy Policy, govern your access to and use of https://www.recruitu.io, including any content, software, functionality and services offered on or through https://www.recruitu.io (collectively, the \"Website\"). Please read the Terms of Use carefully before You start to use the Website. **By clicking to accept or agree to the Terms of Use when this option is made available to You, or by otherwise accessing or using the Website, You accept and agree to be bound and abide by these Terms of Use and our Privacy Policy, found at the Privacy Policy URL, incorporated herein by reference.** If You do not want to agree to these Terms of Use or the Privacy Policy, You must not access or use the Website.",
       "This Website is offered and available to users who are 16 years of age or older, and reside in the United States or any of its territories or possessions. By accessing or using the Website, You represent and warrant that You are of legal age to form a binding contract with the Company and meet all of the foregoing eligibility requirements. If You do not meet all of these requirements, You must not access or use the Website.",
       {
         subheading: "Changes to the Terms of Use",
@@ -425,9 +526,16 @@ export const legalSections: LegalSection[] = [
       },
       {
         subheading: "Accessing the Website and Account Security",
-        paragraphs: [
+        content: [
           "We reserve the right to withdraw or amend the Website, and any service or material we provide on the Website, in our sole discretion without notice. We will not be liable if for any reason all or any part of the Website is unavailable at any time or for any period. From time to time, we may restrict access to some parts of the Website, or the entire Website, to users, including registered users.",
-          "You are responsible for both: Making all arrangements necessary for You to have access to the Website; and Ensuring that all persons who access the Website through your internet connection are aware of these Terms of Use and comply with them.",
+          "You are responsible for both:",
+          {
+            ordered: true,
+            listItems: [
+              "Making all arrangements necessary for You to have access to the Website; and",
+              "Ensuring that all persons who access the Website through your internet connection are aware of these Terms of Use and comply with them.",
+            ],
+          },
           "To access the Website or some of the resources it offers, You may be asked to provide certain registration details or other information. It is a condition of your use of the Website that all the information You provide on the Website is correct, current, and complete. You agree that all information You provide to register with the Website or otherwise, including, but not limited to, through the use of any interactive features on the Website, is governed by our Privacy Policy and You consent to all actions we take with respect to your information consistent with our Privacy Policy.",
           "If You choose, or are provided with, a user name, password, or any other piece of information as part of our security procedures, You must treat such information as confidential, and You must not disclose it to any other person or entity. You also acknowledge that your account is personal to You and agree not to provide any other person with access to the Website or portions of it using your user name, password, or other security information. You agree to notify us immediately of any unauthorized access to or use of your user name or password or any other breach of security. You also agree to ensure that You exit from your account at the end of each session. You should use particular caution when accessing your account from a public or shared computer so that others are not able to view or record your password or other personal information.",
           "We have the right to disable any user name, password, or other identifier, whether chosen by You or provided by us, at any time in our sole discretion for any or no reason, including if, in our opinion, You have violated any provision of these Terms of Use.",
@@ -435,10 +543,29 @@ export const legalSections: LegalSection[] = [
       },
       {
         subheading: "Intellectual Property Rights",
-        paragraphs: [
+        content: [
           "The Website and its entire contents, features, and functionality (including but not limited to all information, software, text, displays, images, video, and audio, and the design, selection, and arrangement thereof) are owned by the Company, its licensors, or other providers of such material and are protected by United States and international copyright, trademark, patent, trade secret, and other intellectual property or proprietary rights laws.",
-          "These Terms of Use permit You to use the Website for your personal, non-commercial use only. You must not reproduce, distribute, modify, create derivative works of, publicly display, publicly perform, republish, download, store, or transmit any of the material on our Website, except as follows: Your computer may temporarily store copies of such materials in RAM incidental to your accessing and viewing those materials; You may store files that are automatically cached by your Web browser for display enhancement purposes; You may print or download one copy of a reasonable number of pages of the Website for your own personal, non-commercial use and not for further reproduction, publication, or distribution; If we provide desktop, mobile, or other applications for download, You may download a single copy to your computer or mobile device solely for your own personal, non-commercial use, provided You agree to be bound by our end user license agreement for such applications; and If we provide social media features with certain content, You may take such actions as are enabled by such features.",
-          "You must not: Modify copies of any materials from this site; Use any illustrations, photographs, video or audio sequences, or any graphics separately from the accompanying text; or Delete or alter any copyright, trademark, or other proprietary rights notices from copies of materials from this site. You must not access or use for any commercial purposes any part of the Website or any services or materials available through the Website.",
+          "These Terms of Use permit You to use the Website for your personal, non-commercial use only. You must not reproduce, distribute, modify, create derivative works of, publicly display, publicly perform, republish, download, store, or transmit any of the material on our Website, except as follows:",
+          {
+            ordered: true,
+            listItems: [
+              "Your computer may temporarily store copies of such materials in RAM incidental to your accessing and viewing those materials;",
+              "You may store files that are automatically cached by your Web browser for display enhancement purposes;",
+              "You may print or download one copy of a reasonable number of pages of the Website for your own personal, non-commercial use and not for further reproduction, publication, or distribution;",
+              "If we provide desktop, mobile, or other applications for download, You may download a single copy to your computer or mobile device solely for your own personal, non-commercial use, provided You agree to be bound by our end user license agreement for such applications; and",
+              "If we provide social media features with certain content, You may take such actions as are enabled by such features.",
+            ],
+          },
+          "**You must not:**",
+          {
+            ordered: true,
+            listItems: [
+              "Modify copies of any materials from this site;",
+              "Use any illustrations, photographs, video or audio sequences, or any graphics separately from the accompanying text; or",
+              "Delete or alter any copyright, trademark, or other proprietary rights notices from copies of materials from this site.",
+            ],
+          },
+          "You must not access or use for any commercial purposes any part of the Website or any services or materials available through the Website.",
           "If You wish to make any use of material on the Website other than that set out in this section, please address your request to: support@recruitu.com. If You print, copy, modify, download, or otherwise use or provide any other person with access to any part of the Website in breach of the Terms of Use, your right to use the Website will stop immediately and You must, at our option, return or destroy any copies of the materials You have made. No right, title, or interest in or to the Website or any content on the Website is transferred to You, and all rights not expressly granted are reserved by the Company. Any use of the Website not expressly permitted by these Terms of Use is a breach of these Terms of Use and may violate copyright, trademark, and other laws.",
         ],
       },
@@ -450,30 +577,89 @@ export const legalSections: LegalSection[] = [
       },
       {
         subheading: "Prohibited Uses",
-        paragraphs: [
-          "You may use the Website only for lawful purposes and in accordance with these Terms of Use. You agree not to use the Website: In any way that violates any applicable federal, state, local, or international law or regulation; To send, knowingly receive, upload, download, use, or re-use any material that does not comply with the Content Standards set out in these Terms of Use; To transmit, or procure the sending of, any advertising or promotional material without our prior written consent; To impersonate or attempt to impersonate the Company, a Company employee, another user, or any other person or entity; or To engage in any other conduct that restricts or inhibits anyone's use or enjoyment of the Website, or which, as determined by us, may harm the Company or users of the Website, or expose them to liability.",
-          "Additionally, You agree not to: Use the Website in any manner that could disable, overburden, damage, or impair the site or interfere with any other party's use of the Website; Use any robot, spider, or other automatic device, process, or means to access the Website for any purpose; Use any manual process to monitor or copy any of the material on the Website without our prior written consent; Use any device, software, or routine that interferes with the proper working of the Website; Introduce any viruses, Trojan horses, worms, logic bombs, or other material that is malicious or technologically harmful; Attempt to gain unauthorized access to, interfere with, damage, or disrupt any parts of the Website or any server, computer, or database connected to the Website; Attack the Website via a denial-of-service attack or a distributed denial-of-service attack; or Otherwise attempt to interfere with the proper working of the Website.",
+        content: [
+          "You may use the Website only for lawful purposes and in accordance with these Terms of Use. You agree not to use the Website:",
+          {
+            ordered: true,
+            listItems: [
+              "In any way that violates any applicable federal, state, local, or international law or regulation (including, without limitation, any laws regarding privacy, data security or the export of data or software to and from the US or other countries);",
+              "To send, knowingly receive, upload, download, use, or re-use any material that does not comply with the Content Standards set out in these Terms of Use;",
+              "To transmit, or procure the sending of, any advertising or promotional material [without our prior written consent], including any \"junk mail,\" \"chain letter,\" \"spam,\" or any other similar solicitation;",
+              "To impersonate or attempt to impersonate the Company, a Company employee, another user, or any other person or entity (including, without limitation, by using email addresses or usernames associated with any of the foregoing); or",
+              "To engage in any other conduct that restricts or inhibits anyone's use or enjoyment of the Website, or which, as determined by us, may harm the Company or users of the Website, or expose them to liability.",
+            ],
+          },
+          "**Additionally, You agree not to:**",
+          {
+            ordered: true,
+            listItems: [
+              "Use the Website in any manner that could disable, overburden, damage, or impair the site or interfere with any other party's use of the Website, including their ability to engage in real time activities through the Website;",
+              "Use any robot, spider, or other automatic device, process, or means to access the Website for any purpose, including monitoring or copying any of the material on the Website;",
+              "Use any manual process to monitor or copy any of the material on the Website, or for any other purpose not expressly authorized in these Terms of Use, without our prior written consent;",
+              "Use any device, software, or routine that interferes with the proper working of the Website;",
+              "Introduce any viruses, Trojan horses, worms, logic bombs, or other material that is malicious or technologically harmful;",
+              "Attempt to gain unauthorized access to, interfere with, damage, or disrupt any parts of the Website, the server on which the Website is stored, or any server, computer, or database connected to the Website;",
+              "Attack the Website via a denial-of-service attack or a distributed denial-of-service attack; or",
+              "Otherwise attempt to interfere with the proper working of the Website.",
+            ],
+          },
         ],
       },
       {
         subheading: "User Contributions",
-        paragraphs: [
-          "The Website may contain message boards, chat rooms, personal web pages or profiles, forums, job boards, and other interactive features (collectively, \"Interactive Services\") that allow users to post, submit, publish, display, or transmit content or materials (collectively, \"User Contributions\") on or through the Website. All User Contributions must comply with the Content Standards set out in these Terms of Use.",
-          "Any User Contribution You post to the site will be considered non-confidential and non-proprietary. By providing any User Contribution on the Website, You grant us and our affiliates and service providers, and each of their and our respective licensees, successors, and assigns the right to use, reproduce, modify, perform, display, distribute, and otherwise disclose to third parties any such material for any purpose/according to your account settings.",
-          "You represent and warrant that: You own or control all rights in and to the User Contributions and have the right to grant the license granted above; You have all consents necessary to publicly disclose and share with us any and all personal information in User Contributions; All of your User Contributions do and will comply with these Terms of Use; and You understand and acknowledge that You are responsible for any User Contributions You submit and that You, not the Company, have sole responsibility for all data and content contained in such User Contributions. We are not responsible or liable to any third party for the content or accuracy of any User Contributions posted by You or any other user of the Website.",
+        content: [
+          "The Website may contain message boards, chat rooms, personal web pages or profiles, forums, job boards, and other interactive features (collectively, \"**Interactive Services**\") that allow users to post, submit, publish, display, or transmit content or materials (collectively, \"**User Contributions**\") on or through the Website.",
+          "All User Contributions must comply with the Content Standards set out in these Terms of Use.",
+          "Any User Contribution You post to the site will be considered non-confidential and non-proprietary. By providing any User Contribution on the Website, You grant us and our affiliates and service providers, and each of their and our respective licensees, successors, and assigns the right to use, reproduce, modify, perform, display, distribute, and otherwise disclose to third parties any such material or any purpose/according to your account settings.",
+          "**You represent and warrant that:**",
+          {
+            ordered: true,
+            listItems: [
+              "You own or control all rights in and to the User Contributions and have the right to grant the license granted above to us and our affiliates and service providers, and each of their and our respective licensees, successors, and assigns;",
+              "You have all consents necessary to publicly disclose and share with us any and all personal information in User Contributions, without violating any local, state, federal or international privacy laws, rules or regulations;",
+              "All of your User Contributions do and will comply with these Terms of Use; and",
+              "You understand and acknowledge that You are responsible for any User Contributions You submit or contribute and that You, not the Company, have sole and exclusive responsibility for all data, information and other content contained in such User Contributions, including its legality, reliability, accuracy, and appropriateness.",
+            ],
+          },
+          "We are not responsible or liable to any third party for the content or accuracy of any User Contributions posted by You or any other user of the Website.",
         ],
       },
       {
         subheading: "Monitoring and Enforcement; Termination",
-        paragraphs: [
-          "We have the right to: Remove or refuse to post any User Contributions for any or no reason; Take any action with respect to any User Contribution that we deem necessary or appropriate; Disclose your identity or other information about You to any third party who claims that material posted by You violates their rights; Take appropriate legal action for any illegal or unauthorized use of the Website; and Terminate or suspend your access to all or part of the Website for any or no reason, including any violation of these Terms of Use.",
-          "Without limiting the foregoing, we have the right to cooperate fully with any law enforcement authorities or court order requesting or directing us to disclose the identity or other information of anyone posting any materials on or through the Website. YOU WAIVE AND HOLD HARMLESS THE COMPANY AND ITS AFFILIATES, LICENSEES, AND SERVICE PROVIDERS FROM ANY CLAIMS RESULTING FROM ANY ACTION TAKEN BY THE COMPANY DURING, OR TAKEN AS A CONSEQUENCE OF, INVESTIGATIONS BY EITHER THE COMPANY OR LAW ENFORCEMENT AUTHORITIES. However, we cannot review all material before it is posted on the Website, and cannot ensure prompt removal of objectionable material after it has been posted. Accordingly, we assume no liability for any action or inaction regarding transmissions, communications, or content provided by any user or third party.",
+        content: [
+          "We have the right to:",
+          {
+            ordered: true,
+            listItems: [
+              "Remove or refuse to post any User Contributions for any or no reason at our sole discretion;",
+              "Take any action with respect to any User Contribution that we deem necessary or appropriate in our sole discretion, including if we believe that such User Contribution violates the Terms of Use, including the Content Standards, infringes any intellectual property right or other right of any person or entity, threatens the personal safety of users of the Website or the public, or could create liability for the Company;",
+              "Disclose your identity or other information about You to any third party who claims that material posted by You violates their rights, including their intellectual property rights or their right to privacy;",
+              "Take appropriate legal action, including without limitation, referral to law enforcement, for any illegal or unauthorized use of the Website; and",
+              "Terminate or suspend your access to all or part of the Website for any or no reason, including without limitation, any violation of these Terms of Use.",
+            ],
+          },
+          "Without limiting the foregoing, we have the right to cooperate fully with any law enforcement authorities or court order requesting or directing us to disclose the identity or other information of anyone posting any materials on or through the Website. YOU WAIVE AND HOLD HARMLESS THE COMPANY AND ITS AFFILIATES, LICENSEES, AND SERVICE PROVIDERS FROM ANY CLAIMS RESULTING FROM ANY ACTION TAKEN BY THE COMPANY/ANY OF THE FOREGOING PARTIES DURING, OR TAKEN AS A CONSEQUENCE OF, INVESTIGATIONS BY EITHER THE COMPANY/SUCH PARTIES OR LAW ENFORCEMENT AUTHORITIES. However, we cannot review all material before it is posted on the Website, and cannot ensure prompt removal of objectionable material after it has been posted. Accordingly, we assume no liability for any action or inaction regarding transmissions, communications, or content provided by any user or third party. We have no liability or responsibility to anyone for performance or nonperformance of the activities described in this section.",
         ],
       },
       {
         subheading: "Content Standards",
-        paragraphs: [
-          "User Contributions must not: Contain any material that is defamatory, obscene, indecent, abusive, offensive, harassing, violent, hateful, inflammatory, or otherwise objectionable; Promote sexually explicit or pornographic material, violence, or discrimination; Infringe any patent, trademark, trade secret, copyright, or other rights; Violate the legal rights of others; Be likely to deceive any person; Promote any illegal activity; Cause annoyance, inconvenience, or needless anxiety; Impersonate any person or misrepresent your identity; Involve commercial activities or sales; or Give the impression that they emanate from or are endorsed by us, if this is not the case.",
+        content: [
+          "These content standards apply to any and all User Contributions and use of Interactive Services. User Contributions must in their entirety comply with all applicable federal, state, local, and international laws and regulations. Without limiting the foregoing, User Contributions must not:",
+          {
+            ordered: true,
+            listItems: [
+              "Contain any material that is defamatory, obscene, indecent, abusive, offensive, harassing, violent, hateful, inflammatory, or otherwise objectionable;",
+              "Promote sexually explicit or pornographic material, violence, or discrimination based on race, sex, religion, nationality, disability, sexual orientation, or age;",
+              "Infringe any patent, trademark, trade secret, copyright, or other intellectual property or other rights of any other person;",
+              "Violate the legal rights (including the rights of publicity and privacy) of others or contain any material that could give rise to any civil or criminal liability under applicable laws or regulations or that otherwise may be in conflict with these Terms of Use and our Privacy Policy;",
+              "Be likely to deceive any person;",
+              "Promote any illegal activity, or advocate, promote, or assist any unlawful act;",
+              "Cause annoyance, inconvenience, or needless anxiety or be likely to upset, embarrass, alarm, or annoy any other person;",
+              "Impersonate any person, or misrepresent your identity or affiliation with any person or organization;",
+              "Involve commercial activities or sales, such as contests, sweepstakes, and other sales promotions, barter, or advertising; or",
+              "Give the impression that they emanate from or are endorsed by us or any other person or entity, if this is not the case.",
+            ],
+          },
         ],
       },
       {
@@ -508,8 +694,29 @@ export const legalSections: LegalSection[] = [
       },
       {
         subheading: "Linking to the Website and Social Media Features",
-        paragraphs: [
-          "You may link to our homepage, provided You do so in a way that is fair and legal and does not damage our reputation. You must not establish a link in such a way as to suggest any form of association, approval, or endorsement on our part without our express written consent. This Website may provide certain social media features. You may use these features solely as they are provided by us and in accordance with any additional terms we provide. Subject to the foregoing, You must not: Establish a link from any website that is not owned by You; Cause the Website or portions of it to be displayed on any other site (framing, deep linking, or in-line linking); Link to any part of the Website other than the homepage; or Otherwise take any action with respect to the materials on the Website that is inconsistent with these Terms of Use. The website from which You are linking must comply with the Content Standards. We reserve the right to withdraw linking permission without notice.",
+        content: [
+          "You may link to our homepage, provided You do so in a way that is fair and legal and does not damage our reputation or take advantage of it, but You must not establish a link in such a way as to suggest any form of association, approval, or endorsement on our part without our express written consent.",
+          "This Website may provide certain social media features that enable You to:",
+          {
+            ordered: true,
+            listItems: [
+              "Link from your own or certain third-party websites to certain content on the Website;",
+              "Send emails or other communications with certain content, or links to certain content, on the Website; and/or",
+              "Cause limited portions of content on the Website to be displayed or appear to be displayed on your own or certain third-party websites.",
+              "You may use these features solely as they are provided by us and solely with respect to the content they are displayed with and otherwise in accordance with any additional terms and conditions we provide with respect to such features.",
+            ],
+          },
+          "**Subject to the foregoing, You must not:**",
+          "Establish a link from any website that is not owned by You;",
+          {
+            ordered: true,
+            listItems: [
+              "Cause the Website or portions of it to be displayed on, or appear to be displayed by, any other site, for example, framing, deep linking, or in-line linking;",
+              "Link to any part of the Website other than the homepage; or",
+              "Otherwise take any action with respect to the materials on the Website that is inconsistent with any other provision of these Terms of Use.",
+            ],
+          },
+          "The website from which You are linking, or on which You make certain content accessible, must comply in all respects with the Content Standards set out in these Terms of Use. You agree to cooperate with us in causing any unauthorized framing or linking immediately to stop. We reserve the right to withdraw linking permission without notice. We may disable all or any social media features and any links at any time without notice at our discretion.",
         ],
       },
       {
@@ -527,31 +734,35 @@ export const legalSections: LegalSection[] = [
       {
         subheading: "Disclaimer of Warranties",
         paragraphs: [
-          "You understand that we cannot and do not guarantee or warrant that files available for downloading from the internet or the Website will be free of viruses or other destructive code. TO THE FULLEST EXTENT PROVIDED BY LAW, WE WILL NOT BE LIABLE FOR ANY LOSS OR DAMAGE CAUSED BY A DISTRIBUTED DENIAL-OF-SERVICE ATTACK, VIRUSES, OR OTHER TECHNOLOGICALLY HARMFUL MATERIAL. YOUR USE OF THE WEBSITE, ITS CONTENT, AND ANY SERVICES OR ITEMS OBTAINED THROUGH THE WEBSITE IS AT YOUR OWN RISK. THE WEBSITE, ITS CONTENT, AND ANY SERVICES OR ITEMS OBTAINED THROUGH THE WEBSITE ARE PROVIDED ON AN \"AS IS\" AND \"AS AVAILABLE\" BASIS, WITHOUT ANY WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED. TO THE FULLEST EXTENT PROVIDED BY LAW, THE COMPANY HEREBY DISCLAIMS ALL WARRANTIES OF ANY KIND, WHETHER EXPRESS OR IMPLIED, STATUTORY, OR OTHERWISE.",
+          "You understand that we cannot and do not guarantee or warrant that files available for downloading from the internet or the Website will be free of viruses or other destructive code. You are responsible for implementing sufficient procedures and checkpoints to satisfy your particular requirements for anti-virus protection and accuracy of data input and output, and for maintaining a means external to our site for any reconstruction of any lost data. TO THE FULLEST EXTENT PROVIDED BY LAW, WE WILL NOT BE LIABLE FOR ANY LOSS OR DAMAGE CAUSED BY A DISTRIBUTED DENIAL-OF-SERVICE ATTACK, VIRUSES, OR OTHER TECHNOLOGICALLY HARMFUL MATERIAL THAT MAY INFECT YOUR COMPUTER EQUIPMENT, COMPUTER PROGRAMS, DATA, OR OTHER PROPRIETARY MATERIAL DUE TO YOUR USE OF THE WEBSITE OR ANY SERVICES OR ITEMS OBTAINED THROUGH THE WEBSITE OR TO YOUR DOWNLOADING OF ANY MATERIAL POSTED ON IT, OR ON ANY WEBSITE LINKED TO IT.",
+          "YOUR USE OF THE WEBSITE, ITS CONTENT, AND ANY SERVICES OR ITEMS OBTAINED THROUGH THE WEBSITE IS AT YOUR OWN RISK. THE WEBSITE, ITS CONTENT, AND ANY SERVICES OR ITEMS OBTAINED THROUGH THE WEBSITE ARE PROVIDED ON AN \"AS IS\" AND \"AS AVAILABLE\" BASIS, WITHOUT ANY WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED. NEITHER THE COMPANY NOR ANY PERSON ASSOCIATED WITH THE COMPANY MAKES ANY WARRANTY OR REPRESENTATION WITH RESPECT TO THE COMPLETENESS, SECURITY, RELIABILITY, QUALITY, ACCURACY, OR AVAILABILITY OF THE WEBSITE. WITHOUT LIMITING THE FOREGOING, NEITHER THE COMPANY NOR ANYONE ASSOCIATED WITH THE COMPANY REPRESENTS OR WARRANTS THAT THE WEBSITE, ITS CONTENT, OR ANY SERVICES OR ITEMS OBTAINED THROUGH THE WEBSITE WILL BE ACCURATE, RELIABLE, ERROR-FREE, OR UNINTERRUPTED, THAT DEFECTS WILL BE CORRECTED, THAT OUR SITE OR THE SERVER THAT MAKES IT AVAILABLE ARE FREE OF VIRUSES OR OTHER HARMFUL COMPONENTS, OR THAT THE WEBSITE OR ANY SERVICES OR ITEMS OBTAINED THROUGH THE WEBSITE WILL OTHERWISE MEET YOUR NEEDS OR EXPECTATIONS.",
+          "TO THE FULLEST EXTENT PROVIDED BY LAW, THE COMPANY HEREBY DISCLAIMS ALL WARRANTIES OF ANY KIND, WHETHER EXPRESS OR IMPLIED, STATUTORY, OR OTHERWISE, INCLUDING BUT NOT LIMITED TO ANY WARRANTIES OF MERCHANTABILITY, NON-INFRINGEMENT, AND FITNESS FOR PARTICULAR PURPOSE.",
+          "THE FOREGOING DOES NOT AFFECT ANY WARRANTIES THAT CANNOT BE EXCLUDED OR LIMITED UNDER APPLICABLE LAW.",
         ],
       },
       {
         subheading: "Limitation on Liability",
         paragraphs: [
-          "TO THE FULLEST EXTENT PROVIDED BY LAW, IN NO EVENT WILL THE COMPANY, ITS AFFILIATES, OR THEIR LICENSORS, SERVICE PROVIDERS, EMPLOYEES, AGENTS, OFFICERS, OR DIRECTORS BE LIABLE FOR DAMAGES OF ANY KIND, UNDER ANY LEGAL THEORY, ARISING OUT OF OR IN CONNECTION WITH YOUR USE, OR INABILITY TO USE, THE WEBSITE, ANY WEBSITES LINKED TO IT, ANY CONTENT ON THE WEBSITE OR SUCH OTHER WEBSITES, INCLUDING ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES.",
+          "TO THE FULLEST EXTENT PROVIDED BY LAW, IN NO EVENT WILL THE COMPANY, ITS AFFILIATES, OR THEIR LICENSORS, SERVICE PROVIDERS, EMPLOYEES, AGENTS, OFFICERS, OR DIRECTORS BE LIABLE FOR DAMAGES OF ANY KIND, UNDER ANY LEGAL THEORY, ARISING OUT OF OR IN CONNECTION WITH YOUR USE, OR INABILITY TO USE, THE WEBSITE, ANY WEBSITES LINKED TO IT, ANY CONTENT ON THE WEBSITE OR SUCH OTHER WEBSITES, INCLUDING ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES, INCLUDING BUT NOT LIMITED TO, PERSONAL INJURY, PAIN AND SUFFERING, EMOTIONAL DISTRESS, LOSS OF REVENUE, LOSS OF PROFITS, LOSS OF BUSINESS OR ANTICIPATED SAVINGS, LOSS OF USE, LOSS OF GOODWILL, LOSS OF DATA, AND WHETHER CAUSED BY TORT (INCLUDING NEGLIGENCE), BREACH OF CONTRACT, OR OTHERWISE, EVEN IF Foreseeable.",
         ],
       },
       {
         subheading: "Indemnification",
         paragraphs: [
-          "You agree to defend, indemnify, and hold harmless the Company, its affiliates, licensors, and service providers, and its and their respective officers, directors, employees, contractors, agents, licensors, suppliers, successors, and assigns from and against any claims, liabilities, damages, judgments, awards, losses, costs, expenses, or fees (including reasonable attorneys' fees) arising out of or relating to your violation of these Terms of Use or your use of the Website.",
+          "You agree to defend, indemnify, and hold harmless the Company, its affiliates, licensors, and service providers, and its and their respective officers, directors, employees, contractors, agents, licensors, suppliers, successors, and assigns from and against any claims, liabilities, damages, judgments, awards, losses, costs, expenses, or fees (including reasonable attorneys' fees) arising out of or relating to your violation of these Terms of Use or your use of the Website, including, but not limited to, your User Contributions, any use of the Website's content, services, and products other than as expressly authorized in these Terms of Use, or your use of any information obtained from the Website.",
         ],
       },
       {
         subheading: "Governing Law and Jurisdiction",
         paragraphs: [
-          "All matters relating to the Website and these Terms of Use shall be governed by and construed in accordance with the internal laws of the State of Connecticut without giving effect to any choice or conflict of law provision. Any legal suit, action, or proceeding arising out of or related to these Terms of Use or the Website shall be instituted exclusively in the federal courts of the United States or the courts of the State of Connecticut. You waive any and all objections to the exercise of jurisdiction over You by such courts and to venue in such courts.",
+          "All matters relating to the Website and these Terms of Use, and any dispute or claim arising therefrom or related thereto (in each case, including non-contractual disputes or claims), shall be governed by and construed in accordance with the internal laws of the State of Connecticut without giving effect to any choice or conflict of law provision or rule (whether of the State of Connecticut or any other jurisdiction).",
+          "Any legal suit, action, or proceeding arising out of, or related to, these Terms of Use or the Website shall be instituted exclusively in the federal courts of the United States or the courts of the State of Connecticut. You waive any and all objections to the exercise of jurisdiction over You by such courts and to venue in such courts.",
         ],
       },
       {
         subheading: "Arbitration",
         paragraphs: [
-          "At Company's sole discretion, it may require You to submit any disputes arising from these Terms of Use or use of the Website to final and binding arbitration under the Rules of Arbitration of the American Arbitration Association applying Connecticut law.",
+          "At Company's sole discretion, it may require You to submit any disputes arising from these Terms of Use or use of the Website, including disputes arising from or concerning their interpretation, violation, invalidity, non-performance, or termination, to final and binding arbitration under the Rules of Arbitration of the American Arbitration Association applying Connecticut law.",
         ],
       },
       {
@@ -563,7 +774,8 @@ export const legalSections: LegalSection[] = [
       {
         subheading: "Waiver and Severability",
         paragraphs: [
-          "No waiver by the Company of any term or condition set out in these Terms of Use shall be deemed a further or continuing waiver of such term or condition or a waiver of any other term or condition. If any provision of these Terms of Use is held by a court or other tribunal of competent jurisdiction to be invalid, illegal, or unenforceable for any reason, such provision shall be eliminated or limited to the minimum extent such that the remaining provisions of the Terms of Use will continue in full force and effect.",
+          "No waiver by the Company of any term or condition set out in these Terms of Use shall be deemed a further or continuing waiver of such term or condition or a waiver of any other term or condition, and any failure of the Company to assert a right or provision under these Terms of Use shall not constitute a waiver of such right or provision.",
+          "If any provision of these Terms of Use is held by a court or other tribunal of competent jurisdiction to be invalid, illegal, or unenforceable for any reason, such provision shall be eliminated or limited to the minimum extent such that the remaining provisions of the Terms of Use will continue in full force and effect.",
         ],
       },
       {
@@ -575,7 +787,9 @@ export const legalSections: LegalSection[] = [
       {
         subheading: "Your Comments and Concerns",
         paragraphs: [
-          "This website is operated by Recruit.U. All notices of copyright infringement claims should be sent to the copyright agent designated in our Copyright Policy. All other feedback, comments, requests for technical support, and other communications relating to the Website should be directed to: support@recruitu.com",
+          "This website is operated by Recruit.U",
+          "All notices of copyright infringement claims should be sent to the copyright agent designated in our Copyright Policy in the manner and by the means set out therein.",
+          "All other feedback, comments, requests for technical support, and other communications relating to the Website should be directed to: support@recruitu.com",
         ],
       },
     ],

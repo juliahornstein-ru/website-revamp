@@ -1,4 +1,4 @@
-import type { LegalContentItem, LegalSection, LegalTable } from "./legalSections";
+import type { LegalContentItem, LegalSection, LegalTable, LegalList, LegalBlock } from "./legalSections";
 import { legalSections } from "./legalSections";
 
 const MAJOR_SECTION_IDS = ["privacy-policy", "terms-of-use"] as const;
@@ -22,7 +22,7 @@ function isInfoCollectSubsection(id: string): boolean {
   return (INFO_COLLECT_SUBSECTION_IDS as readonly string[]).includes(id);
 }
 
-function isLegalBlock(item: LegalContentItem): item is { subheading: string; paragraphs: string[] } {
+function isLegalBlock(item: LegalContentItem): item is LegalBlock {
   return typeof item === "object" && item !== null && "subheading" in item;
 }
 
@@ -30,9 +30,27 @@ function isLegalTable(item: LegalContentItem): item is LegalTable {
   return typeof item === "object" && item !== null && "rows" in item && "headerCol1" in item;
 }
 
+function isLegalList(item: LegalContentItem): item is LegalList {
+  return typeof item === "object" && item !== null && "listItems" in item && Array.isArray((item as LegalList).listItems);
+}
+
 const paragraphClass = "font-sans text-[0.9375rem] leading-relaxed text-[var(--gray-700)]";
 const subheadingClass = "font-sans text-[1rem] font-semibold text-[var(--gray-900)]";
 const sectionTitleClass = "font-sans text-[1.125rem] font-semibold text-[var(--gray-900)]";
+
+/** Renders text with **bold** segments as <strong>. */
+function renderWithBold(text: string): React.ReactNode {
+  const parts = text.split(/(\*\*[^*]+\*\*)/g);
+  return parts.map((part, i) =>
+    part.startsWith("**") && part.endsWith("**") ? (
+      <strong key={i} className="font-semibold text-[var(--gray-900)]">
+        {part.slice(2, -2)}
+      </strong>
+    ) : (
+      part
+    )
+  );
+}
 
 function SectionContent({ section, isFirst }: { section: LegalSection; isFirst: boolean }) {
   const major = isMajorSection(section.id);
@@ -70,15 +88,65 @@ function SectionContent({ section, isFirst }: { section: LegalSection; isFirst: 
         <div className="space-y-4">
           {section.content.map((item, i) => {
             if (isLegalBlock(item)) {
+              const listClass =
+                "pl-5 space-y-1.5 my-2 font-sans text-[0.9375rem] leading-relaxed text-[var(--gray-700)]";
+              const blockItems: (string | LegalList)[] =
+                item.content ?? (item.paragraphs ?? []).map((p) => p);
               return (
                 <div key={i} className="space-y-3">
                   <h3 className={subheadingClass}>{item.subheading}</h3>
-                  {item.paragraphs.map((p, j) => (
-                    <p key={j} className={paragraphClass}>
-                      {p}
-                    </p>
-                  ))}
+                  {blockItems.map((entry: string | LegalList, j: number) => {
+                    if (typeof entry === "string") {
+                      return (
+                        <p key={j} className={paragraphClass}>
+                          {renderWithBold(entry)}
+                        </p>
+                      );
+                    }
+                    const list = entry;
+                    const ListTag = list.ordered ? "ol" : "ul";
+                    return (
+                      <ListTag
+                        key={j}
+                        className={
+                          list.ordered
+                            ? `${listClass} list-decimal`
+                            : `${listClass} list-disc`
+                        }
+                      >
+                        {list.listItems.map((bullet, k) => (
+                          <li key={k} className={list.ordered ? "pl-1" : ""}>
+                            {renderWithBold(bullet)}
+                          </li>
+                        ))}
+                      </ListTag>
+                    );
+                  })}
                 </div>
+              );
+            }
+            if (isLegalList(item)) {
+              const listClass =
+                "pl-5 space-y-1.5 my-2 font-sans text-[0.9375rem] leading-relaxed text-[var(--gray-700)]";
+              const ListTag = item.ordered ? "ol" : "ul";
+              const itemClass = item.ordered
+                ? "list-decimal pl-1"
+                : "list-disc";
+              return (
+                <ListTag
+                  key={i}
+                  className={
+                    item.ordered
+                      ? `${listClass} list-decimal`
+                      : `${listClass} list-disc`
+                  }
+                >
+                  {item.listItems.map((bullet, k) => (
+                    <li key={k} className={item.ordered ? "pl-1" : ""}>
+                      {renderWithBold(bullet)}
+                    </li>
+                  ))}
+                </ListTag>
               );
             }
             if (isLegalTable(item)) {
@@ -116,7 +184,7 @@ function SectionContent({ section, isFirst }: { section: LegalSection; isFirst: 
             }
             return (
               <p key={i} className={paragraphClass}>
-                {item}
+                {renderWithBold(String(item))}
               </p>
             );
           })}
