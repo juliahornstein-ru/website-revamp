@@ -154,7 +154,7 @@
     .cta-btn:hover .arrow { transform: translateX(3px); }
 
     /* CTA section */
-    .cta-section { background: var(--gray-900); padding: 4rem 1.25rem; }
+    .cta-section { background: var(--gray-900); padding: 4rem 1.25rem; position: relative; }
     @media (min-width: 768px) { .cta-section { padding-left: 2.5rem; padding-right: 2.5rem; } }
     .cta-inner { max-width: 1120px; margin: 0 auto; display: flex; flex-direction: column; gap: 2.5rem; align-items: center; justify-content: space-between; }
     @media (min-width: 768px) { .cta-inner { flex-direction: row; gap: 2rem; } }
@@ -166,8 +166,13 @@
     .cta-note { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.35); white-space: nowrap; transition: color 0.3s; }
     .cta-join-link:hover + .cta-note { color: rgba(255,255,255,0.6); }
     .cta-nav { display: flex; flex-direction: column; gap: 2px; border-left: 1px solid rgba(255,255,255,0.1); padding-left: 1.5rem; }
-    .cta-nav a { font-family: 'DM Mono', monospace; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.75rem 0; color: rgba(255,255,255,0.65); text-decoration: none; transition: color 0.15s; }
+    .cta-nav a { font-family: 'DM Mono', monospace; font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.75rem 0; color: rgba(255,255,255,0.65); text-decoration: none; transition: color 0.15s; }
     .cta-nav a:hover { color: rgba(255,255,255,0.95); }
+    .cta-social { position: absolute; bottom: 1.25rem; right: 1.25rem; display: flex; align-items: center; gap: 1rem; }
+    @media (min-width: 768px) { .cta-social { right: 2.5rem; } }
+    .cta-social a { color: rgba(255,255,255,0.5); transition: color 0.15s; }
+    .cta-social a:hover { color: rgba(255,255,255,0.9); }
+    .cta-social svg { width: 26px; height: 26px; display: block; }
 
     /* Footer */
     footer { display: flex; align-items: center; justify-content: space-between; padding: 1.5rem 1.25rem; border-top: 1px solid var(--gray-200); background: #fff; flex-wrap: wrap; gap: 1rem; }
@@ -431,8 +436,8 @@
             <div class="foot"><div class="avatars"><span class="av-sm"></span><span class="av-sm"></span><span class="av-sm"></span><span class="av-sm"></span><span class="member-count">+85 members</span></div><button type="button" class="view-btn">View →</button></div>
           </div>
           <div class="club-card">
-            <div class="card-top"><div class="av">CC</div><div class="info"><div class="name">Consulting Club</div><div class="school">Georgetown University</div></div></div>
-            <div class="foot"><div class="avatars"><span class="av-sm"></span><span class="av-sm"></span><span class="av-sm"></span><span class="av-sm"></span><span class="member-count">+55 members</span></div><button type="button" class="view-btn">View →</button></div>
+            <div class="card-top"><div class="av">GE</div><div class="info"><div class="name">Growth Equity Club</div><div class="school">University of Pennsylvania</div></div></div>
+            <div class="foot"><div class="avatars"><span class="av-sm"></span><span class="av-sm"></span><span class="av-sm"></span><span class="av-sm"></span><span class="member-count">+34 members</span></div><button type="button" class="view-btn">View →</button></div>
           </div>
           <div class="club-card">
             <div class="card-top"><div class="av">1D</div><div class="info"><div class="name">180 Degrees Consulting</div><div class="school">University of Michigan</div></div></div>
@@ -447,12 +452,12 @@
             <div class="foot"><div class="avatars"><span class="av-sm"></span><span class="av-sm"></span><span class="av-sm"></span><span class="av-sm"></span><span class="member-count">+40 members</span></div><button type="button" class="view-btn">View →</button></div>
           </div>
           <div class="club-card">
-            <div class="card-top"><div class="av">GE</div><div class="info"><div class="name">Growth Equity Club</div><div class="school">University of Pennsylvania</div></div></div>
-            <div class="foot"><div class="avatars"><span class="av-sm"></span><span class="av-sm"></span><span class="av-sm"></span><span class="av-sm"></span><span class="member-count">+34 members</span></div><button type="button" class="view-btn">View →</button></div>
-          </div>
-          <div class="club-card">
             <div class="card-top"><div class="av">WB</div><div class="info"><div class="name">Women in Business</div><div class="school">Northwestern University</div></div></div>
             <div class="foot"><div class="avatars"><span class="av-sm"></span><span class="av-sm"></span><span class="av-sm"></span><span class="av-sm"></span><span class="member-count">+88 members</span></div><button type="button" class="view-btn">View →</button></div>
+          </div>
+          <div class="club-card">
+            <div class="card-top"><div class="av">RE</div><div class="info"><div class="name">Real Estate Club</div><div class="school">Indiana University</div></div></div>
+            <div class="foot"><div class="avatars"><span class="av-sm"></span><span class="av-sm"></span><span class="av-sm"></span><span class="av-sm"></span><span class="member-count">+65 members</span></div><button type="button" class="view-btn">View →</button></div>
           </div>
         </div>
         <div class="section-actions">
@@ -472,11 +477,15 @@
           </div>
         </div>
         <nav class="cta-nav">
-          <a href="/enterprise">For Enterprises →</a>
-          <a href="/about">About Us →</a>
-          <a href="/security">Security Standards →</a>
-          <a href="/contact">Contact Us →</a>
+          <a href="/enterprise" target="_blank" rel="noopener noreferrer">For Enterprises →</a>
+          <a href="/about" target="_blank" rel="noopener noreferrer">About Us →</a>
+          <a href="/privacy" target="_blank" rel="noopener noreferrer">Privacy →</a>
         </nav>
+      </div>
+      <div class="cta-social" aria-label="Social links">
+        <a href="mailto:support@recruitu.com" aria-label="Email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></a>
+        <a href="https://www.instagram.com/recruituhq/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+        <a href="https://www.linkedin.com/company/u-recruit/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
       </div>
     </section>
   </main>
