@@ -1,11 +1,19 @@
+"use client";
+
 import Link from "next/link";
 import HeroOrb from "./HeroOrb";
 import HeroStats from "./HeroStats";
 
 /**
  * Hero — Top section of the student landing: label, headline, subtext, CTAs, and stats.
+ * "See how it works" scrolls to #your-network without changing the URL so back-button restores scroll position.
  */
 export default function Hero() {
+  const scrollToYourNetwork = (e: React.MouseEvent) => {
+    e.preventDefault();
+    document.getElementById("your-network")?.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <section className="relative bg-white border-b border-[var(--gray-200)] pt-12 pb-9 px-5 md:px-10">
       <HeroOrb />
@@ -29,17 +37,18 @@ export default function Hero() {
             </p>
             <div className="flex gap-3 items-center flex-wrap">
               <Link
-                href="#"
+                href="https://app.recruitu.com/signup"
                 className="font-mono text-[0.58rem] uppercase tracking-wider py-3 px-6 bg-[var(--blue)] text-white rounded-md inline-block hover:bg-[#0A2ACC] transition-colors"
               >
                 Join Free
               </Link>
-              <Link
-                href="#"
-                className="font-mono text-[0.58rem] uppercase tracking-wider py-3 bg-transparent text-[var(--gray-500)] hover:text-[var(--gray-900)] transition-colors"
+              <a
+                href="#your-network"
+                onClick={scrollToYourNetwork}
+                className="font-mono text-[0.58rem] uppercase tracking-wider py-3 bg-transparent text-[var(--gray-500)] hover:text-[var(--gray-900)] transition-colors cursor-pointer"
               >
                 See how it works →
-              </Link>
+              </a>
             </div>
           </div>
           <HeroStats />

@@ -1,24 +1,20 @@
-"use client";
-
 import type { JobCardItem } from "@/data/jobCards";
 
 interface JobCardProps {
   item: JobCardItem;
 }
 
+const AUTH_URL = "https://app.recruitu.com/authentication";
+
 /**
- * JobCard — Single card in the "Open roles" horizontal scroll.
+ * JobCard — Single card in the "Open roles" horizontal scroll. Clicking goes to login.
  */
 export default function JobCard({ item }: JobCardProps) {
   return (
     <a
-      href="#"
+      href={AUTH_URL}
       data-card
       className="shrink-0 w-[320px] bg-white border border-[#e4e4e0] rounded-md p-5 flex flex-col min-h-[150px] no-underline text-inherit hover:border-[#2563EB] hover:bg-[#fafbff] transition-colors group"
-      onClick={(e) => {
-        e.preventDefault();
-        // TODO: open job auth modal or navigate to signup
-      }}
     >
       <div className="font-sans text-[0.88rem] font-normal text-[#111] tracking-tight leading-snug mb-2.5">
         {item.title}

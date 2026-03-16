@@ -32,8 +32,6 @@ export default function StudentCTA() {
   const [joinHover, setJoinHover] = useState(false);
 
   const links = [
-    { label: "For Enterprises", href: "/enterprise" },
-    { label: "About Us", href: "/about" },
     { label: "Privacy", href: "/privacy" },
   ];
 
@@ -55,7 +53,7 @@ export default function StudentCTA() {
           </h2>
           <div className="flex items-center gap-3 mt-0.5">
             <Link
-              href="/signup"
+              href="https://app.recruitu.com/signup"
               className="font-serif text-[clamp(2.2rem,4vw,4.2rem)] font-normal leading-tight tracking-tight italic transition-colors duration-300"
               style={{ color: joinHover ? "#fff" : "rgba(255,255,255,0.3)" }}
               onMouseEnter={() => setJoinHover(true)}

@@ -7,16 +7,17 @@ interface ClubCardProps {
 }
 
 const AVATAR_COLORS = ["#C8A882", "#9BB5C8", "#B8C8A0", "#C8A8B8", "#A8B8C8", "#C8B8A0", "#B0C8C0", "#C8C0A8"];
+const AUTH_URL = "https://app.recruitu.com/authentication";
 
 /**
- * ClubCard — Single card in the "Your clubs" horizontal scroll.
- * Uses a simple colored circle for member avatars (could be replaced with real avatars later).
+ * ClubCard — Single card in the "Your clubs" horizontal scroll. Clicking goes to login.
  */
 export default function ClubCard({ item }: ClubCardProps) {
   return (
-    <div
+    <a
+      href={AUTH_URL}
       data-card
-      className="shrink-0 w-[300px] bg-white border border-[#e4e4e0] rounded-md p-4 cursor-pointer flex flex-col hover:border-[#2563EB] hover:bg-[#fafbff] transition-colors group"
+      className="shrink-0 w-[300px] bg-white border border-[#e4e4e0] rounded-md p-4 cursor-pointer flex flex-col hover:border-[#2563EB] hover:bg-[#fafbff] transition-colors group no-underline text-inherit"
     >
       <div className="flex items-center gap-2.5 mb-3">
         <div className="h-[34px] w-[34px] rounded-full overflow-hidden shrink-0 bg-[#f0efed] flex items-center justify-center">
@@ -49,6 +50,6 @@ export default function ClubCard({ item }: ClubCardProps) {
           View →
         </span>
       </div>
-    </div>
+    </a>
   );
 }

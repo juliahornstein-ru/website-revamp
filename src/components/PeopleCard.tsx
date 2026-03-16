@@ -15,12 +15,15 @@ const badgeClass: Record<string, string> = {
  * PeopleCard — Single card in the "Your network" horizontal scroll.
  * Initials use a circle with blue ring (outline).
  */
+const AUTH_URL = "https://app.recruitu.com/authentication";
+
 export default function PeopleCard({ item }: PeopleCardProps) {
   const variant = item.badgeVariant ?? "g";
   return (
-    <div
+    <a
+      href={AUTH_URL}
       data-card
-      className="group shrink-0 w-[300px] border border-[#e4e4e0] rounded-md p-4 bg-white cursor-pointer hover:border-[#2563EB] hover:bg-[#fafbff] transition-colors"
+      className="group shrink-0 w-[300px] border border-[#e4e4e0] rounded-md p-4 bg-white cursor-pointer hover:border-[#2563EB] hover:bg-[#fafbff] transition-colors no-underline text-inherit block"
     >
       <div className="flex items-center gap-2.5 mb-3">
         <div
@@ -43,10 +46,10 @@ export default function PeopleCard({ item }: PeopleCardProps) {
         {item.reason}
       </div>
       <div className="flex justify-end">
-        <button type="button" className="font-sans text-[0.71rem] text-[#2563EB] py-0.5 px-1 rounded hover:underline">
+        <span className="font-sans text-[0.71rem] text-[#2563EB] py-0.5 px-1 rounded group-hover:underline">
           View profile →
-        </button>
+        </span>
       </div>
-    </div>
+    </a>
   );
 }

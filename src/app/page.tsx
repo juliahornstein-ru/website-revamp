@@ -28,7 +28,7 @@ export default function Home() {
         <Hero />
 
         {/* Section 1: Your network — horizontal scroll of people cards */}
-        <section className="py-10 md:py-12 border-b border-[#eeecea] bg-[#faf9f6] px-5 md:px-12">
+        <section id="your-network" className="py-10 md:py-12 border-b border-[#eeecea] bg-[#faf9f6] px-5 md:px-12 scroll-mt-[62px]">
           <div className="max-w-[1200px] mx-auto px-0 md:px-12">
             <ScrollSection
               id="track-people"
@@ -70,13 +70,13 @@ export default function Home() {
               <span className="font-sans text-[0.76rem] text-[#aaa]">
                 Paths based on 50,000+ alumni across 800+ universities.
               </span>
-              <button
-                type="button"
+              <a
+                href="https://app.recruitu.com/authentication"
                 className="inline-flex items-center gap-2 font-mono text-[0.52rem] tracking-[.1em] uppercase px-5 py-2.5 rounded-md border border-[#111] bg-white text-[#111] hover:bg-[#111] hover:text-white transition-colors group"
               >
                 Map your own path
                 <span className="transition-transform group-hover:translate-x-0.5">→</span>
-              </button>
+              </a>
             </div>
           </div>
         </section>
@@ -94,13 +94,13 @@ export default function Home() {
               ))}
             </ScrollSection>
             <div className="flex items-center justify-end mt-4">
-              <button
-                type="button"
+              <a
+                href="https://app.recruitu.com/authentication"
                 className="inline-flex items-center gap-2 font-mono text-[0.52rem] tracking-[.1em] uppercase px-5 py-2.5 rounded-md border border-[#111] bg-white text-[#111] hover:bg-[#111] hover:text-white transition-colors group"
               >
                 Explore all roles
                 <span className="transition-transform group-hover:translate-x-0.5">→</span>
-              </button>
+              </a>
             </div>
           </div>
         </section>
@@ -119,13 +119,13 @@ export default function Home() {
               ))}
             </ScrollSection>
             <div className="flex items-center justify-end mt-4">
-              <button
-                type="button"
+              <a
+                href="https://app.recruitu.com/authentication"
                 className="inline-flex items-center gap-2 font-mono text-[0.52rem] tracking-[.1em] uppercase px-5 py-2.5 rounded-md border border-[#111] bg-white text-[#111] hover:bg-[#111] hover:text-white transition-colors group"
               >
                 Explore all clubs
                 <span className="transition-transform group-hover:translate-x-0.5">→</span>
-              </button>
+              </a>
             </div>
           </div>
         </section>

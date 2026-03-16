@@ -42,13 +42,13 @@ export default function Nav() {
 
         <div className="flex items-center gap-2 shrink-0">
           <Link
-            href="#"
+            href="https://app.recruitu.com/authentication"
             className="font-mono text-[0.55rem] uppercase tracking-wider py-2 px-4 rounded-md bg-[#e8e8e6] text-[var(--gray-900)] hover:bg-[#c0c0be] transition-colors inline-block"
           >
             Log in
           </Link>
           <Link
-            href="#"
+            href="https://app.recruitu.com/signup"
             className="font-mono text-[0.55rem] uppercase tracking-wider py-2 px-4 rounded-md bg-[var(--blue)] text-white hover:bg-[#0A2ACC] transition-colors inline-block"
           >
             Join Free
